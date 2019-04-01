@@ -49,7 +49,7 @@ const user = {
           //   }
           // }
           if (response.data.status) {
-            const data = response.data.data
+            const data = response.data.datas
             setToken(data.token)
             commit('SET_TOKEN', data.token)
             resolve(response)
