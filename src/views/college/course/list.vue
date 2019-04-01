@@ -9,16 +9,16 @@
         @keyup.enter.native="handleFilter"
       />
       <el-select
-        v-model="listQuery.school_id"
-        placeholder="关联学院"
+        v-model="listQuery.catid"
+        placeholder="归属分类"
         clearable
         style="width: 150px"
         class="filter-item"
         @change="handleFilter"
       >
-        <el-option v-for="item in schoolList" :key="item.id" :label="item.title" :value="item.id"/>
+        <el-option v-for="item in schoolList" :key="item.id" :label="item.name" :value="item.id"/>
       </el-select>
-      <el-select
+      <!-- <el-select
         v-model="listQuery.type"
         style="width: 140px"
         class="filter-item"
@@ -31,7 +31,7 @@
           :label="item.label"
           :value="item.key"
         />
-      </el-select>
+      </el-select> -->
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
     </div>
     <div class="addSchoolType">
@@ -59,26 +59,26 @@
           <span>{{ scope.row.tab }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="'关联学院'" prop="id" sortable="custom" align="center">
+      <el-table-column :label="'归属分类'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.cat_name }}</span>
         </template>
       </el-table-column>
       <!-- <el-table-column :label="'关联套课'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.school_id }}</span>
+          <span>{{ scope.row.catid }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="'课程类型'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.school_id }}</span>
+          <span>{{ scope.row.catid }}</span>
         </template>
       </el-table-column> -->
-      <el-table-column :label="'测试题'" prop="id" sortable="custom" align="center">
+      <!-- <el-table-column :label="'测试题'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
           <div class="userList">{{ scope.row.question_id }}</div>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column :label="'发布时间'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.updated_at }}</span>
@@ -118,7 +118,7 @@ export default {
       ],
       listQuery: {
         key: '',
-        school_id: '',
+        catid: '',
         type: '',
         page: 1,
         limit: 10
@@ -141,22 +141,6 @@ export default {
   },
   mounted() {},
   methods: {
-    cancelEdit(row) {
-      // row.title = row.originalTitle
-      row.edit = false
-      this.$message({
-        message: 'The title has been restored to the original value',
-        type: 'warning'
-      })
-    },
-    confirmEdit(row) {
-      row.edit = false
-      row.originalTitle = row.title
-      this.$message({
-        message: 'The title has been edited',
-        type: 'success'
-      })
-    },
     onSubmit() {
       this.$message('submit!')
     },
@@ -199,12 +183,12 @@ export default {
       this.listLoading = true
       getLists(this.path, this.listQuery).then(response => {
         this.total = response.data.total
-        this.list = response.data.datas.data
-        this.schoolList = response.data.datas.school
+        this.list = response.data.datas.course
+        this.schoolList = response.data.datas.category
         if (this.schoolList !== null) {
           this.list.forEach((a, i, s) => {
-            const catobj = this.schoolList.filter(obj => obj.id === a.school_id)
-            a.cat_name = catobj.length === 0 ? '未关联' : catobj[0].title
+            const catobj = this.schoolList.filter(obj => obj.id === a.catid)
+            a.cat_name = catobj.length === 0 ? '' : catobj[0].name
           })
         }
         this.listLoading = false

@@ -49,7 +49,7 @@ const user = {
           //   }
           // }
           if (response.data.status) {
-            const data = response.data.datas
+            const data = response.data.data
             setToken(data.token)
             commit('SET_TOKEN', data.token)
             resolve(response)
@@ -68,7 +68,7 @@ const user = {
       state
     }) {
       return new Promise((resolve, reject) => {
-        refresh(state.token).then(response => {
+        // refresh(state.token).then(response => {
           // const data = response.data
           const data = {}
           // console.log(data)
@@ -83,9 +83,9 @@ const user = {
           commit('SET_NAME', data.name)
           commit('SET_AVATAR', data.avatar)
           resolve()
-        }).catch(error => {
-          reject(error)
-        })
+        // }).catch(error => {
+        //   reject(error)
+        // })
       })
     },
 

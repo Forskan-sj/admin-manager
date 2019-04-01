@@ -80,7 +80,6 @@ export default {
       getInfo(this.path, { id }).then(response => {
         this.form = response.data.datas
         console.log(response)
-        this.$message(response.data.info)
         this.listLoading = false
         this.formMark = true
       })
@@ -88,7 +87,7 @@ export default {
     onSubmit() {
       this.listLoading = true
       add(this.path, this.form).then(response => {
-        this.$message(response.data.info)
+        this.$message(response.data.message)
         this.$store.dispatch('delView', this.$route)
         this.$router.replace('/college/teacher/index')
         sessionStorage.setItem('refresh', JSON.stringify(1))

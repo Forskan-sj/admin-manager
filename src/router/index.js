@@ -9,8 +9,8 @@ Vue.use(Router)
 /* Layout */
 import Layout from '../views/layout/Layout'
 import college from './college'
-import lib from './lib'
-import helpfeed from './helpfeed'
+// import lib from './lib'
+// import helpfeed from './helpfeed'
 /**
 * hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
 * alwaysShow: true               if set true, will always show the root menu, whatever its child routes length
@@ -245,37 +245,37 @@ export const asyncRouterMap = [
   //   }]
   // },
 
-  {
-    path: '/notice',
-    name: 'NoticePage',
-    component: Layout,
-    redirect: '/notice/index',
-    meta: {
-      title: '消息管理',
-      icon: 'form'
-    },
-    children: [{
-      path: 'index',
-      name: 'NoticeList',
-      component: () =>
-        import('@/views/notice/list'),
-      meta: {
-        title: '消息管理',
-        icon: 'form'
-      }
-    },
-    {
-      path: 'options/:id(\\d+)',
-      name: 'NoticeEdit',
-      component: () =>
-        import('@/views/notice/options'),
-      meta: {
-        title: '编辑消息',
-        icon: 'form'
-      },
-      hidden: true
-    }]
-  },
+  // {
+  //   path: '/notice',
+  //   name: 'NoticePage',
+  //   component: Layout,
+  //   redirect: '/notice/index',
+  //   meta: {
+  //     title: '消息管理',
+  //     icon: 'form'
+  //   },
+  //   children: [{
+  //     path: 'index',
+  //     name: 'NoticeList',
+  //     component: () =>
+  //       import('@/views/notice/list'),
+  //     meta: {
+  //       title: '消息管理',
+  //       icon: 'form'
+  //     }
+  //   },
+  //   {
+  //     path: 'options/:id(\\d+)',
+  //     name: 'NoticeEdit',
+  //     component: () =>
+  //       import('@/views/notice/options'),
+  //     meta: {
+  //       title: '编辑消息',
+  //       icon: 'form'
+  //     },
+  //     hidden: true
+  //   }]
+  // },
   // {
   //   path: '/permissionEdit',
   //   name: 'PermissionEdit',

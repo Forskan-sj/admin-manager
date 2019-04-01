@@ -12,7 +12,7 @@ export function getLists(path, data) {
 //  添加
 export function add(path, data) {
   return request({
-    url: path + '/add',
+    url: path + '/edit',
     method: 'post',
     data
   })

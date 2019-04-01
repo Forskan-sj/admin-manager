@@ -15,9 +15,14 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
+      <el-table-column :label="'ID'" prop="id" sortable="custom" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.id }}</span>
+        </template>
+      </el-table-column>
       <el-table-column :label="'名称'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.school_name }}</span>
+          <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
       <!-- <el-table-column :label="'课程数量'" prop="id" sortable="custom" align="center">
@@ -28,11 +33,6 @@
       <el-table-column :label="'创建时间'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.created_at }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="'是否关联企业'" prop="id" sortable="custom" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.qy_id === 0 ? '否' : scope.row.qy_id }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="'操作'" align="center" class-name="small-padding fixed-width">
@@ -62,7 +62,7 @@ export default {
   components: { Pagination },
   data() {
     return {
-      path: 'school',
+      path: 'category',
       listQuery: {
         page: 1,
         limit: 10

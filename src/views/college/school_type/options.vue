@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form ref="form" :model="form" :rules="formRules" label-width="160px">
-      <el-form-item label="学院名称" prop="name">
+      <el-form-item label="分类名称" prop="name">
         <el-input v-model="form.name"/>
       </el-form-item>
       <!-- <el-form-item label="学院代理等级">
@@ -47,14 +47,15 @@ export default {
   name: 'StypeEdit',
   data() {
     return {
-      path: 'school',
+      path: 'category',
       bEdit: false,
       formRules: {
-        name: [{ required: true, message: '请输入学院名称', trigger: 'blur' }]
+        name: [{ required: true, message: '请输入分类名称', trigger: 'blur' }]
       },
       listLoading: false,
       form: {
-        name: ''
+        name: '',
+        id: 0
       }
     }
   },
@@ -68,16 +69,14 @@ export default {
     getInfos(id) {
       this.listLoading = true
       getInfo(this.path, { id }).then(response => {
-        this.form.name = response.data.datas.school_name
-        console.log(response)
-        this.$message(response.data.info)
+        this.form = response.data.datas
         this.listLoading = false
       })
     },
     onSubmit() {
       this.listLoading = true
-      add(this.path, { id: this.$route.params.id, school_name: this.form.name }).then(response => {
-        this.$message(response.data.info)
+      add(this.path, this.form).then(response => {
+        this.$message(response.data.message)
         this.$store.dispatch('delView', this.$route)
         this.$router.replace('/college/school_type/index')
         sessionStorage.setItem('refresh', JSON.stringify(1))

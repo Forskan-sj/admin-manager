@@ -3,7 +3,7 @@
     <div class="filter-container" style="padding-bottom: 10px;">
       <el-input
         v-model="listQuery.key"
-        placeholder="用户名/账号/学号"
+        placeholder="姓名/手机号"
         style="width: 200px;"
         class="filter-item"
         @keyup.enter.native="handleFilter"
@@ -83,12 +83,12 @@
       @sort-change="sortChange"
     >
 
-      <el-table-column :label="'用户名'" align="center">
+      <el-table-column :label="'姓名'" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.nickname }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="'账号'" >
+      <el-table-column :label="'手机号'" >
         <template slot-scope="scope">
           <span>{{ scope.row.mobile }}</span>
         </template>
@@ -103,11 +103,11 @@
           <span>{{ scope.row.student_id }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="'关联企业'" align="center">
+      <!-- <el-table-column :label="'关联企业'" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.cat_name }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <!-- <el-table-column :label="'购买数量'" width="110px" align="center">
         <template slot-scope="scope">
           <span style="color:red;" >{{ scope.row.need_id }}</span>
@@ -204,15 +204,15 @@ export default {
       this.listLoading = true
       getLists(this.path, this.listQuery).then(response => {
         this.total = response.data.total
-        this.list = response.data.datas.data
+        this.list = response.data.datas
 
-        this.qy_list = response.data.datas.enterprise
-        if (this.qy_list !== null) {
-          this.list.forEach((a, i, s) => {
-            const catobj = this.qy_list.filter(obj => obj.id === a.qy_id)
-            a.cat_name = catobj.length === 0 ? '未关联' : catobj[0].title
-          })
-        }
+        // this.qy_list = response.data.datas.enterprise
+        // if (this.qy_list !== null) {
+        //   this.list.forEach((a, i, s) => {
+        //     const catobj = this.qy_list.filter(obj => obj.id === a.qy_id)
+        //     a.cat_name = catobj.length === 0 ? '未关联' : catobj[0].title
+        //   })
+        // }
 
         this.listLoading = false
       })

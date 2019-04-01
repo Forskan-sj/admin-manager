@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form ref="form" :model="form" :rules="formRules" label-width="260px">
+    <el-form v-if="formMark" ref="form" :model="form" :rules="formRules" label-width="260px" >
       <el-form-item label="课程名称" prop="title">
         <el-input v-model="form.title"/>
       </el-form-item>
@@ -8,9 +8,9 @@
         <el-input v-model="form.tab"/>
       </el-form-item>
 
-      <el-form-item label="归属分类" prop="school_id">
+      <el-form-item label="归属分类" prop="catid">
         <el-select
-          v-model="form.school_id"
+          v-model="form.catid"
           style="width: 140px"
           class="filter-item"
           @change="handleFilter(1)"
@@ -18,7 +18,7 @@
           <el-option
             v-for="item in schoolList"
             :key="item.id"
-            :label="item.title"
+            :label="item.name"
             :value="item.id"
           />
         </el-select>
@@ -48,9 +48,9 @@
         prop="ppt">
         <up-load v-if="ulParamsMark && formMark" :single-pic="bEdit?cdn+form.poster:form.poster" :index="-2" :type="3" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
       </el-form-item> -->
-      <el-form-item label="价格" prop="price" >
+      <!-- <el-form-item label="价格" prop="price" >
         <el-input v-model="form.price" style="width:300px;margin-right:10px"/>元
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="讲师" prop="teacher_id">
         <el-select
           v-model="form.teacher_id"
@@ -61,7 +61,7 @@
           <el-option
             v-for="item in teacherList"
             :key="item.id"
-            :label="item.title"
+            :label="item.name"
             :value="item.id"
           />
         </el-select>
@@ -96,13 +96,13 @@
       >
         <el-input v-model="form.desc" type="textarea"/>
       </el-form-item>
-      <el-form-item label="添加简答题" prop="question">
+      <!-- <el-form-item label="添加简答题" prop="question">
         <span v-if="abjTitle !== ''" class="testText">{{ form.question_id }}、{{ abjTitle }}</span>
         <el-button type="success" @click="showQstList(-1)">{{ abjTitle == '' ? '选择' : '修改' }}</el-button>
-      </el-form-item>
+      </el-form-item> -->
     </el-form>
     <div class="sections">章节内容</div>
-    <el-form ref="form2" label-width="260px">
+    <el-form v-if="formMark" ref="form2" label-width="260px" >
       <div
         v-for="(list,index) in form.sections"
         :key="index"
@@ -126,10 +126,10 @@
           label="添加PPT(推荐尺寸: 320 x 240)">
           <up-load v-if="ulParamsMark && formMark" :filelists="list.imgstemp" :index="index" :type="2" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
         </el-form-item>
-        <el-form-item label="添加测题" prop="question">
-          <span v-if="list.qstTitle !== ''" class="testText">{{ list.question }}、{{ list.qstTitle }}</span>
+        <!-- <el-form-item label="添加测题" prop="question_id">
+          <span v-if="list.qstTitle !== ''" class="testText">{{ list.question_id }}、{{ list.qstTitle }}</span>
           <el-button type="success" @click="showQstList(index)">{{ list.qstTitle == '' ? '选择' : '修改' }}</el-button>
-        </el-form-item>
+        </el-form-item> -->
       </div>
     </el-form>
     <el-form ref="form3" label-width="260px" style="margin-top:30px">
@@ -199,18 +199,19 @@ export default {
             media: '',
             time: '',
             qstTitle: '',
-            question: ''
+            question_id: ''
           }
         ],
-        school: 0,
         title: '',
         teacher_id: 1,
         tab: '',
+        id: 0,
         pic: null,
-        poster: null,
-        school_id: 1,
-        type: 1,
-        price: '',
+        // poster: null,
+        catid: 1,
+        // type: 1,
+        // price: '',
+        question_id: '',
         is_video: 1,
         status: 0,
         desc: ''
@@ -228,8 +229,8 @@ export default {
     this.getInfos(this.$route.params.id)
 
     this.listLoading = true
-    this.getQuestionsList([1, 2])
-    this.getQuestionsList([3])
+    // this.getQuestionsList([1, 2])
+    // this.getQuestionsList([3])
     getOSSparams({ type: 'dev_test_dcaredata' }).then(response => {
       this.ossParams = response.data.datas
       this.ulParamsMark = true
@@ -243,16 +244,17 @@ export default {
       getInfo(this.path, { id }).then(response => {
         this.formMark = true
         if (this.bEdit) {
-          this.form = response.data.datas
+          this.form = response.data.datas.course
           // console.log(this.form)
-          this.abjTitle = this.form.question
+          this.abjTitle = this.form.question_id
+          this.form.sections.forEach((item, i, a) => {
+            item.mediatemp = item.media === null ? null : this.cdn + item.media
+            item.imgstemp = this.formatImg(item.imgs)
+          })
         }
         this.teacherList = response.data.datas.teacher
-        // this.schoolList = response.data.datas.school
-        this.form.sections.forEach((item, i, a) => {
-          item.mediatemp = item.media === null ? null : this.cdn + item.media
-          item.imgstemp = this.formatImg(item.imgs)
-        })
+        this.schoolList = response.data.datas.category
+
         this.listLoading = false
       })
     },
@@ -357,7 +359,7 @@ export default {
       this.listLoading = true
       add(this.path, this.form).then(response => {
         this.listLoading = false
-        this.$message(response.data.info)
+        this.$message(response.data.message)
         this.$store.dispatch('delView', this.$route)
         this.$router.replace('/college/course/index')
         sessionStorage.setItem('refresh', JSON.stringify(1))
