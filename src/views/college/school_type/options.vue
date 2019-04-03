@@ -32,7 +32,11 @@
       <el-form-item v-if="form.delivery" label="考核达标最低分数">
         <el-input v-model="form.min"/>
       </el-form-item> -->
-
+      <el-form-item
+        label="类型图片(推荐尺寸:1035 x 360)"
+        prop="ppt">
+        <up-load v-if="ulParamsMark && formMark" :single-pic="bEdit?cdn+form.pic:form.pic" :index="-1" :type="3" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
+      </el-form-item>
       <el-form-item>
         <el-button v-if="!bEdit" type="primary" @click="onSubmit">添加</el-button>
         <el-button v-if="bEdit" type="primary" @click="onSubmit">保存</el-button>
@@ -42,9 +46,11 @@
 </template>
 
 <script>
-import { add, getInfo } from '@/api/college'
+import { add, getInfo, getOSSparams } from '@/api/college'
+import UpLoad from '@/components/UpLoad'
 export default {
   name: 'StypeEdit',
+  components: { UpLoad },
   data() {
     return {
       path: 'category',
@@ -53,6 +59,9 @@ export default {
         name: [{ required: true, message: '请输入分类名称', trigger: 'blur' }]
       },
       listLoading: false,
+      ulParamsMark: false,
+      formMark: false,
+      cdn: 'https://cdncollege.quansuwangluo.com/',
       form: {
         name: '',
         id: 0
@@ -64,13 +73,26 @@ export default {
     if (this.bEdit) {
       this.getInfos(this.$route.params.id)
     }
+    getOSSparams({ type: 'dev_test_dcaredata' }).then(response => {
+      this.ossParams = response.data.datas
+      this.ulParamsMark = true
+      this.listLoading = false
+    })
   },
   methods: {
+    uploadSucess(param) {
+      if (param.res_url !== null) {
+        if (param.type === 3) {
+          this.form.pic = param.res_url
+        }
+      }
+    },
     getInfos(id) {
       this.listLoading = true
       getInfo(this.path, { id }).then(response => {
         this.form = response.data.datas
         this.listLoading = false
+        this.formMark = true
       })
     },
     onSubmit() {

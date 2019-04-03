@@ -4,7 +4,7 @@
       <el-form-item label="讲师名称" prop="name">
         <el-input v-model="form.name"/>
       </el-form-item>
-      <el-form-item label="讲师照片(推荐尺寸:60 x 60)" prop="avatar">
+      <el-form-item label="讲师照片(推荐尺寸:480 x 480)" prop="avatar">
         <up-load v-if="ulParamsMark && formMark" :index="0" :type="3" :single-pic="bEdit?cdn+form.avatar:form.avatar" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
       </el-form-item>
       <el-form-item label="讲师性别" prop="sex">

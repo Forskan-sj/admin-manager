@@ -39,7 +39,7 @@
         </el-select>
       </el-form-item> -->
       <el-form-item
-        label="课程封面(推荐尺寸:375 x 210)"
+        label="课程封面(推荐尺寸:474 x 354)"
         prop="ppt">
         <up-load v-if="ulParamsMark && formMark" :single-pic="bEdit?cdn+form.pic:form.pic" :index="-1" :type="3" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
       </el-form-item>
@@ -123,7 +123,7 @@
           <el-input v-model="list.time"/>
         </el-form-item>
         <el-form-item
-          label="添加PPT(推荐尺寸: 320 x 240)">
+          label="添加PPT(推荐尺寸: 960 x 720)">
           <up-load v-if="ulParamsMark && formMark" :filelists="list.imgstemp" :index="index" :type="2" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
         </el-form-item>
         <!-- <el-form-item label="添加测题" prop="question_id">

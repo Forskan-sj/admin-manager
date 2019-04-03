@@ -120,37 +120,46 @@ export const asyncRouterMap = [
   //   }]
   // },
   college,
-  // {
-  //   path: '/admanager',
-  //   name: 'ComplexTablepage',
-  //   component: Layout,
-  //   redirect: '/admanager/index',
-  //   meta: {
-  //     title: '广告管理',
-  //     icon: 'form'
-  //   },
-  //   children: [{
-  //     path: 'index',
-  //     name: 'ComplexTableList',
-  //     component: () =>
-  //       import('@/views/admanager/list'),
-  //     meta: {
-  //       title: '广告管理',
-  //       icon: 'form'
-  //     }
-  //   },
-  //   {
-  //     path: 'options/:id(\\d+)',
-  //     name: 'ComplexTableEdit',
-  //     component: () =>
-  //       import('@/views/admanager/options'),
-  //     meta: {
-  //       title: '编辑广告',
-  //       icon: 'form'
-  //     },
-  //     hidden: true
-  //   }]
-  // },
+  {
+    path: '/admanager',
+    name: 'ComplexTablepage',
+    component: Layout,
+    redirect: '/admanager/index',
+    meta: {
+      title: '轮播图',
+      icon: 'form'
+    },
+    children: [{
+      path: 'index',
+      name: 'ComplexTableEdit',
+      component: () =>
+        import('@/views/admanager/options'),
+      meta: {
+        title: '轮播图',
+        icon: 'form'
+      }
+    }]
+  },
+  {
+    path: '/invitePoster',
+    name: 'ComplexInvitePoster',
+    component: Layout,
+    redirect: '/invitePoster/index',
+    meta: {
+      title: '邀请海报',
+      icon: 'form'
+    },
+    children: [{
+      path: 'index',
+      name: 'ComplexTableEdit',
+      component: () =>
+        import('@/views/invitePoster/options'),
+      meta: {
+        title: '邀请海报',
+        icon: 'form'
+      }
+    }]
+  },
   // lib,
   // helpfeed,
   // {

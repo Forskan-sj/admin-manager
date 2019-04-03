@@ -24,9 +24,9 @@
           <el-radio :label="0">否</el-radio>
         </el-radio-group>
       </el-form-item> -->
-      <el-form-item label="滚动时间（单位：秒）:" prop="dtime">
-        <el-input v-model="form.dtime" type="number" style="width:200px"/>
-      </el-form-item>
+      <!-- <el-form-item label="邀请海报（753 x 1263）:" prop="dtime"> -->
+        <!-- <el-input v-model="form.dtime" type="number" style="width:200px"/> -->
+      <!-- </el-form-item> -->
       <!-- <el-form-item label="是否上架:" prop="status">
         <el-radio-group v-model="form.status">
           <el-radio :label="1">显示</el-radio>
@@ -36,7 +36,7 @@
       <el-form-item v-for="(item, index) in form.contents" :key="item.index">
         <div class="divContent">
           <div class="delete" @click="delAd(index)">+</div>
-          <div class="title">上传图片(推荐尺寸:1035x486)：</div>
+          <div class="title">邀请海报(推荐尺寸:753 x 1263)：</div>
           <div>
             <up-load v-if="ulParamsMark && formMark" :index="index" :type="3" :single-pic="cdn+item.img_url" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
           </div>
@@ -59,7 +59,7 @@
 
     <el-form ref="form3" label-width="160px" style="margin-top:30px">
       <el-form-item>
-        <el-button type="success" @click="addOptions">添加轮播图</el-button>
+        <el-button type="success" @click="addOptions">添加邀请海报</el-button>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">保存</el-button>
@@ -107,7 +107,7 @@ export default {
   },
   mounted() {
     // this.bEdit = this.$route.params.id !== '0'
-    this.getInfos(1)
+    this.getInfos(2)
     this.listLoading = true
     getOSSparams({ type: 'dev_test_dcaredata' }).then(response => {
       this.ossParams = response.data.datas
