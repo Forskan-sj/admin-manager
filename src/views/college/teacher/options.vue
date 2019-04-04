@@ -45,10 +45,8 @@ export default {
         name: '',
         desc: '',
         tag: '',
-        sex: 2,
-        delivery: false,
-        type: [],
-        resource: ''
+        id: 0,
+        sex: 2
       },
       formRules: {
         name: [{ required: true, message: '请输入讲师名称', trigger: 'blur' }],
