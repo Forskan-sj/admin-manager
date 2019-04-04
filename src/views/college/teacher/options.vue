@@ -51,10 +51,10 @@ export default {
         resource: ''
       },
       formRules: {
-        name: [{ required: true, message: '请输入题目内容', trigger: 'blur' }],
-        tag: [{ required: true, message: '讲师标签', trigger: 'blur' }],
-        desc: [{ required: true, message: '讲师描述', trigger: 'blur' }],
-        avatar: [{ required: true, message: '请输入标记内容', trigger: 'change' }]
+        name: [{ required: true, message: '请输入讲师名称', trigger: 'blur' }],
+        // tag: [{ required: true, message: '讲师标签', trigger: 'blur' }]
+        // desc: [{ required: true, message: '讲师描述', trigger: 'blur' }],
+        avatar: [{ required: true, message: '请上传讲师头像', trigger: 'change' }]
       }
     }
   },
