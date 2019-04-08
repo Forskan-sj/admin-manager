@@ -43,11 +43,11 @@
         prop="ppt">
         <up-load v-if="ulParamsMark && formMark" :single-pic="bEdit?cdn+form.pic:form.pic" :index="-1" :type="3" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
       </el-form-item>
-      <!-- <el-form-item
-        label="内封面(推荐尺寸:160 x 123 )"
-        prop="ppt">
+      <el-form-item
+        label="播放背景图(推荐尺寸:750 x 422 )"
+        prop="poster">
         <up-load v-if="ulParamsMark && formMark" :single-pic="bEdit?cdn+form.poster:form.poster" :index="-2" :type="3" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
-      </el-form-item> -->
+      </el-form-item>
       <!-- <el-form-item label="价格" prop="price" >
         <el-input v-model="form.price" style="width:300px;margin-right:10px"/>元
       </el-form-item> -->
@@ -207,7 +207,7 @@ export default {
         tab: '',
         id: 0,
         pic: null,
-        // poster: null,
+        poster: null,
         catid: 1,
         // type: 1,
         // price: '',
