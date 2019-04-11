@@ -36,7 +36,7 @@ service.interceptors.response.use(
       return Promise.resolve(response)
     } else {
       Message({
-        message: res.info,
+        message: res.message,
         type: 'error',
         duration: 5 * 1000
       })
