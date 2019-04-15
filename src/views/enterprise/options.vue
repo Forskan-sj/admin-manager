@@ -209,17 +209,8 @@ export default {
       getInfo(this.path, { id }).then(response => {
         this.formMark = true
         if (this.bEdit) {
-          this.form = response.data.datas.course
-          // console.log(this.form)
-          this.abjTitle = this.form.question_id
-          this.form.sections.forEach((item, i, a) => {
-            item.mediatemp = item.media === null ? null : this.cdn + item.media
-            item.imgstemp = this.formatImg(item.imgs)
-          })
+          this.form = response.data.datas
         }
-        this.teacherList = response.data.datas.teacher
-        this.schoolList = response.data.datas.category
-
         this.listLoading = false
       })
     },

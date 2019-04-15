@@ -275,50 +275,50 @@ const college = {
     //     }
     //   }]
     // },
-    // {
-    //   path: 'question',
-    //   name: 'QuestionPage',
-    //   redirect: '/college/question/index',
-    //   component: () =>
-    //     import('@/views/college/question/list'),
-    //   meta: {
-    //     title: '题库管理',
-    //     icon: 'form'
-    //   },
-    //   children: [{
-    //     path: 'index',
-    //     name: 'QuestionList',
-    //     component: () =>
-    //       import('@/views/college/question/list'),
-    //     meta: {
-    //       title: '题库管理',
-    //       icon: 'form'
-    //     }
-    //   }]
-    // },
-    // {
-    //   path: 'question_edit',
-    //   name: 'QuestionEdits',
-    //   component: () =>
-    //     import('@/views/college/question/options'),
-    //   redirect: '/college/question/index',
-    //   meta: {
-    //     title: '题库管理',
-    //     icon: 'form'
-    //   },
-    //   hidden: true,
-    //   children: [
-    //   {
-    //     path: 'options/:id(\\d+)',
-    //     name: 'QuestionEdit',
-    //     component: () =>
-    //       import('@/views/college/question/options'),
-    //     meta: {
-    //       title: '编辑题库',
-    //       icon: 'form'
-    //     }
-    //   }]
-    // },
+    {
+      path: 'question',
+      name: 'QuestionPage',
+      redirect: '/college/question/index',
+      component: () =>
+        import('@/views/college/question/list'),
+      meta: {
+        title: '题库管理',
+        icon: 'form'
+      },
+      children: [{
+        path: 'index',
+        name: 'QuestionList',
+        component: () =>
+          import('@/views/college/question/list'),
+        meta: {
+          title: '题库管理',
+          icon: 'form'
+        }
+      }]
+    },
+    {
+      path: 'question_edit',
+      name: 'QuestionEdits',
+      component: () =>
+        import('@/views/college/question/options'),
+      redirect: '/college/question/index',
+      meta: {
+        title: '题库管理',
+        icon: 'form'
+      },
+      hidden: true,
+      children: [
+      {
+        path: 'options/:id(\\d+)',
+        name: 'QuestionEdit',
+        component: () =>
+          import('@/views/college/question/options'),
+        meta: {
+          title: '编辑题库',
+          icon: 'form'
+        }
+      }]
+    },
     // {
     //   path: 'exam',
     //   name: 'ExamPage',

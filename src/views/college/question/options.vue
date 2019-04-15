@@ -117,6 +117,7 @@ export default {
         tab: '',
         type: 1,
         true_answer: 1,
+        id: 0,
         desc: ''
       },
       formRules: {

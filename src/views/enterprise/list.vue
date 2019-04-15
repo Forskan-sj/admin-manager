@@ -56,17 +56,17 @@
       </el-table-column>
       <el-table-column :label="'缩略图'" width="100">
         <template slot-scope="scope">
-          <img :src="scope.row.pic" class="imgpic" @click="handlePictureCardPreview(scope.row.avatar)">
+          <img :src="cdn + scope.row.pic" class="imgpic" @click="handlePictureCardPreview(scope.row.avatar)">
         </template>
       </el-table-column>
       <el-table-column :label="'海报'" width="100">
         <template slot-scope="scope">
-          <img :src="scope.row.poster" class="imgpic" @click="handlePictureCardPreview(scope.row.avatar)">
+          <img :src="cdn + scope.row.poster" class="imgpic" @click="handlePictureCardPreview(scope.row.avatar)">
         </template>
       </el-table-column>
       <el-table-column :label="'二维码'" width="100">
         <template slot-scope="scope">
-          <img :src="scope.row.qrcode" class="imgpic" @click="handlePictureCardPreview(scope.row.avatar)">
+          <img :src="cdn + scope.row.qrcode" class="imgpic" @click="handlePictureCardPreview(scope.row.avatar)">
         </template>
       </el-table-column>
       <!-- <el-table-column :label="'关联套课'" prop="id" sortable="custom" align="center">
@@ -86,7 +86,7 @@
       </el-table-column> -->
       <el-table-column :label="'操作'" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <router-link :to="'/college/course_edit/options/'+scope.row.id">
+          <router-link :to="'/enterprise/options/'+scope.row.id">
             <el-button type="primary" size="small" icon="el-icon-edit">编辑</el-button>
           </router-link>
           <el-button type="danger" size="small" icon="el-icon-delete">删除</el-button>
@@ -112,10 +112,6 @@ export default {
   data() {
     return {
       path: 'special',
-      courseStatus: [
-        { label: '未发布', key: 0 },
-        { label: '已发布', key: 1 }
-      ],
       listQuery: {
         key: '',
         catid: '',
@@ -123,10 +119,7 @@ export default {
         page: 1,
         limit: 10
       },
-      courseKind: [
-        { label: '音频', key: 0 },
-        { label: '视频', key: 1 }
-      ],
+      cdn: 'https://cdncollege.quansuwangluo.com/',
       total: 5,
       downloadLoading: false,
       listLoading: false,

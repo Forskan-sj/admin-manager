@@ -96,10 +96,10 @@
       >
         <el-input v-model="form.desc" type="textarea"/>
       </el-form-item>
-      <!-- <el-form-item label="添加简答题" prop="question">
+      <el-form-item label="添加简答题" prop="question">
         <span v-if="abjTitle !== ''" class="testText">{{ form.question_id }}、{{ abjTitle }}</span>
         <el-button type="success" @click="showQstList(-1)">{{ abjTitle == '' ? '选择' : '修改' }}</el-button>
-      </el-form-item> -->
+      </el-form-item>
     </el-form>
     <div class="sections">章节内容</div>
     <el-form v-if="formMark" ref="form2" label-width="260px" >
@@ -126,10 +126,10 @@
           label="添加PPT(推荐尺寸: 960 x 720)">
           <up-load v-if="ulParamsMark && formMark" :filelists="list.imgstemp" :index="index" :type="2" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
         </el-form-item>
-        <!-- <el-form-item label="添加测题" prop="question_id">
+        <el-form-item label="添加测题" prop="question_id">
           <span v-if="list.qstTitle !== ''" class="testText">{{ list.question_id }}、{{ list.qstTitle }}</span>
           <el-button type="success" @click="showQstList(index)">{{ list.qstTitle == '' ? '选择' : '修改' }}</el-button>
-        </el-form-item> -->
+        </el-form-item>
       </div>
     </el-form>
     <el-form ref="form3" label-width="260px" style="margin-top:30px">
@@ -199,7 +199,7 @@ export default {
             media: '',
             time: '',
             qstTitle: '',
-            question_id: ''
+            question_id: -1
           }
         ],
         title: '',
@@ -211,7 +211,7 @@ export default {
         catid: 1,
         // type: 1,
         // price: '',
-        question_id: '',
+        question_id: -1,
         is_video: 1,
         status: 0,
         desc: ''
@@ -229,8 +229,8 @@ export default {
     this.getInfos(this.$route.params.id)
 
     this.listLoading = true
-    // this.getQuestionsList([1, 2])
-    // this.getQuestionsList([3])
+    this.getQuestionsList([1, 2])
+    this.getQuestionsList([3])
     getOSSparams({ type: 'dev_test_dcaredata' }).then(response => {
       this.ossParams = response.data.datas
       this.ulParamsMark = true
@@ -289,7 +289,7 @@ export default {
         this.form.question_id = param.chooseItem.id
       } else {
         this.form.sections[param.index].qstTitle = param.chooseItem.title || ''
-        this.form.sections[param.index].question = param.chooseItem.id
+        this.form.sections[param.index].question_id = param.chooseItem.id
       }
     },
     getQuestionsList(param) {
@@ -366,7 +366,7 @@ export default {
       })
     },
     onSubmit(mark) {
-      // console.log(this.form)
+      console.log(this.form)
       this.$refs['form'].validate(valid => {
         // debugger
         if (valid) {
@@ -389,7 +389,7 @@ export default {
           return false
         }
       })
-      // this.$message('submit!')
+      this.$message('submit!')
     },
     onCancel() {
       this.$message({
