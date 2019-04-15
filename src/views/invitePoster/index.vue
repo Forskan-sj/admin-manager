@@ -8,7 +8,7 @@
 <script>
 import Pagination from '@/components/Pagination'
 export default {
-  name: 'ComplexTablepage',
+  name: 'ComplexTablepages',
   components: { Pagination },
   data() {
     return {

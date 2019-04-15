@@ -1,29 +1,44 @@
 <template>
   <div class="app-container">
-    <!-- <div class="addSchoolType">
+    <div class="filter-container" style="padding-bottom: 10px;">
+      <!-- <el-input
+        v-model="listQuery.key"
+        placeholder="课程名称/课程标识"
+        style="width: 300px;"
+        class="filter-item"
+        @keyup.enter.native="handleFilter"
+      />
+      <el-select
+        v-model="listQuery.catid"
+        placeholder="归属分类"
+        clearable
+        style="width: 150px"
+        class="filter-item"
+        @change="handleFilter"
+      >
+        <el-option v-for="item in schoolList" :key="item.id" :label="item.name" :value="item.id"/>
+      </el-select> -->
+      <!-- <el-select
+        v-model="listQuery.type"
+        style="width: 140px"
+        class="filter-item"
+        placeholder="课程类型"
+        @change="handleFilter(0)"
+      >
+        <el-option
+          v-for="item in courseKind"
+          :key="item.key"
+          :label="item.label"
+          :value="item.key"
+        />
+      </el-select> -->
+      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
+    </div>
+    <div class="addSchoolType">
       <router-link :to="'/enterprise/options/'+'0'">
-        <el-button size="mini" type="success" icon="el-icon-edit" @click="handleModifyStatus">添加</el-button>
+        <el-button size="mini" type="success" icon="el-icon-edit" @click="handleModifyStatus">添加专训营</el-button>
       </router-link>
-    </div> -->
-    <el-input
-      v-model="listQuery.key"
-      placeholder="企业名称"
-      style="width: 200px;"
-      class="filter-item"
-      @keyup.enter.native="handleFilter"
-    />
-    <el-select
-      v-model="listQuery.status"
-      placeholder="审核状态"
-      clearable
-      style="width: 150px"
-      class="filter-item"
-      @change="handleFilter"
-    >
-      <el-option v-for="(item, index) in qy_status" :key="index" :label="item" :value="index"/>
-    </el-select>
-    <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
-    <div style="height:30px"/>
+    </div>
     <el-table
       v-loading="listLoading"
       :key="tableKey"
@@ -34,42 +49,47 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column :label="'ID'" prop="id" sortable="custom" align="center">
+      <el-table-column :label="'专训名称'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.id }}</span>
+          <span>{{ scope.row.title }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="'企业名称'" prop="id" sortable="custom" align="center">
+      <el-table-column :label="'缩略图'" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.name }}</span>
+          <img :src="scope.row.pic" class="imgpic" @click="handlePictureCardPreview(scope.row.avatar)">
         </template>
       </el-table-column>
-      <el-table-column :label="'企业行业'" prop="id" sortable="custom" align="center">
+      <el-table-column :label="'海报'" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.industry }}</span>
+          <img :src="scope.row.poster" class="imgpic" @click="handlePictureCardPreview(scope.row.avatar)">
         </template>
       </el-table-column>
-      <!-- <el-table-column :label="'文章封面'" prop="id" sortable="custom" align="center">
+      <el-table-column :label="'二维码'" width="100">
         <template slot-scope="scope">
-          <img :src="scope.row.pic" class="imgpic" @click="handlePictureCardPreview(scope.row.pic)">
+          <img :src="scope.row.qrcode" class="imgpic" @click="handlePictureCardPreview(scope.row.avatar)">
+        </template>
+      </el-table-column>
+      <!-- <el-table-column :label="'关联套课'" prop="id" sortable="custom" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.catid }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="'课程类型'" prop="id" sortable="custom" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.catid }}</span>
         </template>
       </el-table-column> -->
-      <el-table-column :label="'审核状态'" prop="id" sortable="custom" align="center">
+      <!-- <el-table-column :label="'测试题'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
-          <span>{{ qy_status[scope.row.status] }}</span>
+          <div class="userList">{{ scope.row.question_id }}</div>
         </template>
-      </el-table-column>
-      <el-table-column :label="'提交审核时间'" prop="id" sortable="custom" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.created_at }}</span>
-        </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column :label="'操作'" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <router-link :to="'/enterprise/options/'+scope.row.id">
+          <router-link :to="'/college/course_edit/options/'+scope.row.id">
             <el-button type="primary" size="small" icon="el-icon-edit">编辑</el-button>
           </router-link>
-          <!-- <el-button type="danger" size="small" icon="el-icon-delete" @click="del(scope.row.id)">删除</el-button> -->
+          <el-button type="danger" size="small" icon="el-icon-delete">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -80,73 +100,47 @@
       :limit.sync="listQuery.limit"
       @pagination="getList"
     />
-    <el-dialog :visible.sync="dialogVisible">
-      <img :src="dialogImageUrl" width="100%" >
-    </el-dialog>
   </div>
 </template>
 
 <script>
 import Pagination from '@/components/Pagination'
-import { getLists, del } from '@/api/college'
+import { getLists } from '@/api/college'
 export default {
   name: 'EnterpriseList',
   components: { Pagination },
   data() {
     return {
-      path: 'enterprise',
-      dialogImageUrl: '',
-      dialogVisible: false,
-      qy_status: ['待审核', '审核通过', '拒绝'],
-      bookKinds: [],
+      path: 'special',
+      courseStatus: [
+        { label: '未发布', key: 0 },
+        { label: '已发布', key: 1 }
+      ],
       listQuery: {
         key: '',
-        status: '',
+        catid: '',
+        type: '',
         page: 1,
         limit: 10
       },
-      form: {
-        delivery: true
-      },
+      courseKind: [
+        { label: '音频', key: 0 },
+        { label: '视频', key: 1 }
+      ],
       total: 5,
-      importanceOptions: [],
-      calendarTypeOptions: [],
-      showReviewer: '',
-      sortOptions: [],
       downloadLoading: false,
       listLoading: false,
       tableKey: 0,
       list: [],
+      schoolList: [],
       listTemp: []
     }
   },
   created() {
-
+    this.getList()
   },
-  mounted() {
-    this.getBookKind()
-  },
+  mounted() {},
   methods: {
-     getBookKind() {
-      this.listLoading = true
-      getLists('category', { page: 1, limit: 99999, type: 2 }).then(response => {
-        this.bookKinds = response.data.datas
-        this.listLoading = false
-        this.getList()
-      })
-    },
-    del(id) {
-      this.listLoading = true
-      del(this.path, { id }).then(response => {
-        this.listLoading = false
-        this.getList()
-        // location.reload()
-      })
-    },
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file
-      this.dialogVisible = true
-    },
     onSubmit() {
       this.$message('submit!')
     },
@@ -163,10 +157,10 @@ export default {
     },
     handleCreate() {},
     handleModifyStatus(row, status) {
-      // this.$message({
-      //   message: '操作成功',
-      //   type: 'success'
-      // })
+      this.$message({
+        message: '操作成功',
+        type: 'success'
+      })
       // row.status = status
     },
     handleUpdate(row) {
@@ -190,10 +184,13 @@ export default {
       getLists(this.path, this.listQuery).then(response => {
         this.total = response.data.total
         this.list = response.data.datas
-        // this.list.forEach((a, i, s) => {
-        //   const catobj = this.bookKinds.filter(obj => obj.id === a.catid)
-        //   a.cat_name = catobj.length === 0 ? '未分类' : catobj[0].name
-        // })
+        // this.schoolList = response.data.datas.category
+        // if (this.schoolList !== null) {
+        //   this.list.forEach((a, i, s) => {
+        //     const catobj = this.schoolList.filter(obj => obj.id === a.catid)
+        //     a.cat_name = catobj.length === 0 ? '' : catobj[0].name
+        //   })
+        // }
         this.listLoading = false
       })
     }
@@ -205,17 +202,20 @@ export default {
 .line {
   text-align: center;
 }
-.imgpic {
-  width: 100%;
-  height: 50px;
-  object-fit: cover;
-  cursor: pointer;
-}
 img {
   width: 100%;
 }
 .addSchoolType {
   margin: 30px 0;
+}
+.userList{
+  cursor: pointer;
+  color: blue;
+}
+.cancel-btn {
+  position: absolute;
+  right: 15px;
+  top: 10px;
 }
 </style>
 

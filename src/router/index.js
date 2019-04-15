@@ -78,47 +78,48 @@ export const asyncRouterMap = [
       }
     }]
   },
-  // {
-  //   path: '/enterprise',
-  //   name: 'EnterPrise',
-  //   redirect: '/enterprise/index',
-  //   component: Layout,
-  //   meta: {
-  //     title: '企业管理',
-  //     icon: 'form'
-  //   },
-  //   children: [{
-  //     path: 'index',
-  //     name: 'EnterpriseList',
-  //     component: () =>
-  //       import('@/views/enterprise/list'),
-  //     meta: {
-  //       title: '企业管理',
-  //       icon: 'form'
-  //     }
-  //   },
-  //   {
-  //     path: 'options/:id(\\d+)',
-  //     name: 'EnterpriseEdit',
-  //     component: () =>
-  //       import('@/views/enterprise/options'),
-  //     meta: {
-  //       title: '编辑企业',
-  //       icon: 'form'
-  //     },
-  //     hidden: true
-  //   },
-  //   {
-  //     path: 'department',
-  //     name: 'Department',
-  //     component: () =>
-  //       import('@/views/enterprise/department'),
-  //     meta: {
-  //       title: '编辑部门',
-  //       icon: 'form'
-  //     }
-  //   }]
-  // },
+  {
+    path: '/enterprise',
+    name: 'EnterPrise',
+    redirect: '/enterprise/index',
+    component: Layout,
+    meta: {
+      title: '专训营',
+      icon: 'form'
+    },
+    children: [{
+      path: 'index',
+      name: 'EnterpriseList',
+      component: () =>
+        import('@/views/enterprise/list'),
+      meta: {
+        title: '专训营',
+        icon: 'form'
+      }
+    },
+    {
+      path: 'options/:id(\\d+)',
+      name: 'EnterpriseEdit',
+      component: () =>
+        import('@/views/enterprise/options'),
+      meta: {
+        title: '专训营编辑',
+        icon: 'form'
+      },
+      hidden: true
+    }
+    // {
+    //   path: 'department',
+    //   name: 'Department',
+    //   component: () =>
+    //     import('@/views/enterprise/department'),
+    //   meta: {
+    //     title: '编辑部门',
+    //     icon: 'form'
+    //   }
+    // }
+  ]
+  },
   college,
   {
     path: '/admanager',
@@ -151,7 +152,7 @@ export const asyncRouterMap = [
     },
     children: [{
       path: 'index',
-      name: 'ComplexTableEdit',
+      name: 'ComplexInvitePosterEdit',
       component: () =>
         import('@/views/invitePoster/options'),
       meta: {

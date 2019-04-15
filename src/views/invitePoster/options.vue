@@ -23,11 +23,11 @@
           <el-radio :label="1">是</el-radio>
           <el-radio :label="0">否</el-radio>
         </el-radio-group>
-      </el-form-item> -->
-      <!-- <el-form-item label="邀请海报（753 x 1263）:" prop="dtime"> -->
-        <!-- <el-input v-model="form.dtime" type="number" style="width:200px"/> -->
-      <!-- </el-form-item> -->
-      <!-- <el-form-item label="是否上架:" prop="status">
+      </el-form-item>
+      <el-form-item label="邀请海报（753 x 1263）:" prop="dtime">
+       <el-input v-model="form.dtime" type="number" style="width:200px"/>
+      </el-form-item>
+     <el-form-item label="是否上架:" prop="status">
         <el-radio-group v-model="form.status">
           <el-radio :label="1">显示</el-radio>
           <el-radio :label="0">不显示</el-radio>
@@ -73,7 +73,7 @@
 import UpLoad from '@/components/UpLoad'
 import { add, getInfo, getOSSparams } from '@/api/college'
 export default {
-  name: 'ComplexTableEdit',
+  name: 'ComplexInvitePosterEdit',
   components: { UpLoad },
   data() {
     return {

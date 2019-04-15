@@ -71,7 +71,7 @@
 import Pagination from '@/components/Pagination'
 import { getLists, del, setStatus } from '@/api/college'
 export default {
-  name: 'ComplexTableList',
+  name: 'ComplexInvitePoster',
   components: { Pagination },
   data() {
     return {

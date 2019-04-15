@@ -1,117 +1,202 @@
 <template>
   <div class="app-container">
-    <el-form ref="form" :model="form" :rules="formRules" label-width="260px">
-      <el-form-item label="企业名称:" prop="name">
-        <el-input v-model="form.name"/>
+    <el-form v-if="formMark" ref="form" :model="form" :rules="formRules" label-width="260px" >
+      <el-form-item label="专训名称" prop="title">
+        <el-input v-model="form.title"/>
       </el-form-item>
-      <el-form-item label="企业行业:" prop="industry">
-        <el-input v-model="form.industry"/>
-      </el-form-item>
-      <el-form-item label="企业地址:" prop="address">
-        <el-input v-model="form.address"/>
-      </el-form-item>
-      <el-form-item label="企业电话:" prop="mobile">
-        <el-input v-model="form.mobile"/>
-      </el-form-item>
-      <el-form-item label="企业固话:" prop="telephone">
-        <el-input v-model="form.telephone"/>
-      </el-form-item>
-      <el-form-item label="企业邮箱:" prop="email">
-        <el-input v-model="form.email"/>
-      </el-form-item>
-      <el-form-item label="企业证书:" prop="license">
-        <up-load v-if="ulParamsMark && formMark" :index="-1" :type="3" :single-pic="bEdit?cdn+form.license:form.license" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
-      </el-form-item>
-      <el-form-item label="企业logo:" prop="logo">
-        <up-load v-if="ulParamsMark && formMark" :index="-2" :type="3" :single-pic="bEdit?cdn+form.logo:form.logo" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
-      </el-form-item>
-      <el-form-item label="审核状态" prop="status">
+      <!-- <el-form-item label="专训标识" prop="tab">
+        <el-input v-model="form.tab"/>
+      </el-form-item> -->
+
+      <!-- <el-form-item label="归属分类" prop="catid">
         <el-select
-          v-model="form.status"
+          v-model="form.catid"
           style="width: 140px"
           class="filter-item"
+          @change="handleFilter(1)"
         >
           <el-option
-            v-for="(item, index) in status"
-            :key="index"
-            :label="item"
-            :value="index"
+            v-for="item in schoolList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="资料状态" prop="is_set">
+      <el-form-item label="选择类型">
         <el-select
-          v-model="form.is_set"
+          v-model="form.type"
           style="width: 140px"
           class="filter-item"
+          @change="handleFilter(2)"
         >
           <el-option
-            v-for="(item, index) in is_set"
-            :key="index"
-            :label="item"
-            :value="index"
+            v-for="item in courseKind"
+            :key="item.key"
+            :label="item.label"
+            :value="item.key"
           />
         </el-select>
+      </el-form-item> -->
+      <el-form-item
+        label="专训封面(推荐尺寸:474 x 354)"
+        prop="qrcode">
+        <up-load v-if="ulParamsMark && formMark" :single-pic="bEdit?cdn+form.pic:form.pic" :index="-1" :type="3" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
+      </el-form-item>
+      <el-form-item
+        label="播放背景图(推荐尺寸:750 x 422 )"
+        prop="poster">
+        <up-load v-if="ulParamsMark && formMark" :single-pic="bEdit?cdn+form.poster:form.poster" :index="-2" :type="3" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
+      </el-form-item>
+      <el-form-item
+        label="二维码"
+        prop="poster">
+        <up-load v-if="ulParamsMark && formMark" :single-pic="bEdit?cdn+form.poster:form.poster" :index="-3" :type="3" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
+      </el-form-item>
+      <!-- <el-form-item label="价格" prop="price" >
+        <el-input v-model="form.price" style="width:300px;margin-right:10px"/>元
+      </el-form-item> -->
+      <!-- <el-form-item label="讲师" prop="teacher_id">
+        <el-select
+          v-model="form.teacher_id"
+          style="width: 140px"
+          class="filter-item"
+          @change="handleFilter(0)"
+        >
+          <el-option
+            v-for="item in teacherList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="专训类型" prop="is_video">
+        <el-select
+          v-model="form.is_video"
+          style="width: 140px"
+          class="filter-item"
+          @change="handleFilter(0)"
+        >
+          <el-option
+            v-for="item in sectionKindList"
+            :key="item.key"
+            :label="item.label"
+            :value="item.key"
+          />
+        </el-select>
+      </el-form-item> -->
+      <!-- <el-form-item label="是否发布">
+        <el-radio-group v-model="form.status">
+          <el-radio :label="1">是</el-radio>
+          <el-radio :label="0">否</el-radio>
+        </el-radio-group>
+      </el-form-item> -->
+      <!-- <el-form-item
+        :rules="{
+          required: true, message: '专训简介不能为空', trigger: 'blur'
+        }"
+        label="专训简介"
+        prop="desc"
+      >
+        <el-input v-model="form.desc" type="textarea"/>
+      </el-form-item> -->
+      <!-- <el-form-item label="添加简答题" prop="question">
+        <span v-if="abjTitle !== ''" class="testText">{{ form.question_id }}、{{ abjTitle }}</span>
+        <el-button type="success" @click="showQstList(-1)">{{ abjTitle == '' ? '选择' : '修改' }}</el-button>
       </el-form-item>
     </el-form>
-
+    <div class="sections">章节内容</div>
+    <el-form v-if="formMark" ref="form2" label-width="260px" >
+      <div
+        v-for="(list,index) in form.sections"
+        :key="index"
+        class="containers">
+        <div class="deleteClass" @click="deleteClass(index)">删除章节</div>
+        <legend v-text="list.title == ''?'章节名称':(index+1)+'、'+list.title"/>
+        <el-form-item
+          label="章节名称">
+          <el-input v-model="list.title"/>
+        </el-form-item>
+        <el-form-item
+          :label="form.is_video == 0?'添加音频*.mp3':'添加视频*.mp4'">
+          <el-button type="success" @click="upLoad(1)">上传</el-button>
+          <up-load v-if="ulParamsMark && formMark" :single-pic="list.mediatemp" :index="index" :type="form.is_video" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
+        </el-form-item>
+        <el-form-item
+          label="专训时长">
+          <el-input v-model="list.time"/>
+        </el-form-item>
+        <el-form-item
+          label="添加PPT(推荐尺寸: 960 x 720)">
+          <up-load v-if="ulParamsMark && formMark" :filelists="list.imgstemp" :index="index" :type="2" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
+        </el-form-item>
+        <el-form-item label="添加测题" prop="question_id">
+          <span v-if="list.qstTitle !== ''" class="testText">{{ list.question_id }}、{{ list.qstTitle }}</span>
+          <el-button type="success" @click="showQstList(index)">{{ list.qstTitle == '' ? '选择' : '修改' }}</el-button>
+        </el-form-item>
+      </div>
+    </el-form>
     <el-form ref="form3" label-width="260px" style="margin-top:30px">
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">保存</el-button>
+        <el-button type="success" @click="addOptions">添加章节</el-button>
+      </el-form-item> -->
+      <el-form-item>
+        <!-- <el-button v-if="!bEdit" type="primary" @click="onSubmit">添加</el-button> -->
+        <el-button type="primary" @click="onSubmit(1)">保存</el-button>
+        <!-- <el-button type="primary" @click="onSubmit(2)">保存为新专训</el-button> -->
       </el-form-item>
     </el-form>
-    <!-- <div class="editor-content" v-html="content"/> -->
+    <!-- <div v-if="showQuesSel" class="showQL">
+      <div class="back" @click="closeQL"/>
+      <div class="content">
+        <ques-sel :qst-list="qstListBind" :qst_id="qst_id" :index="qsIndex" @choose="choose"/>
+      </div>
+    </div> -->
   </div>
 </template>
 
 <script>
+import DndList from '@/components/DndList'
 import UpLoad from '@/components/UpLoad'
-import Tinymce from '@/components/Tinymce'
+import QuesSel from '@/components/QuesSel'
 import { add, getInfo, getOSSparams } from '@/api/college'
-// import { validateEmail } from '@/utils/validate'
 export default {
   name: 'EnterpriseEdit',
-  components: { UpLoad, Tinymce },
+  components: { DndList, UpLoad, QuesSel },
   data() {
     return {
-      path: 'enterprise',
-      formMark: true,
-      ossParams: '',
-      bookkinds: [],
-      bEdit: false,
-      status: ['待审核', '通过', '拒绝'],
-      is_set: ['待审核', '通过', '拒绝'],
-      ulParamsMark: '',
+      formMark: false,
+      path: 'special',
+      ossParams: {},
+      ulParamsMark: false,
       listLoading: false,
+      listQuery: '',
       cdn: 'https://cdncollege.quansuwangluo.com/',
+      bEdit: false,
       form: {
-        mobile: '',
-        industry: '',
-        name: '',
-        telephone: '',
-        address: '',
-        status: 1,
-        license: null,
-        logo: null
+        title: '',
+        id: 0,
+        pic: null,
+        poster: null,
+        qrcode: null
       },
       formRules: {
-        name: [{ required: true, message: '请输入企业名称', trigger: 'blur' }],
-        address: [{ required: true, message: '请输入企业地址', trigger: 'blur' }],
-        industry: [{ required: true, message: '请输入企业行业', trigger: 'blur' }],
-        license: [{ required: true, message: '请上传企业证书', trigger: 'blur' }],
-        logo: [{ required: true, message: '请上传企业logo', trigger: 'blur' }],
-        mobile: [{ required: true, message: '请填写企业移动电话', trigger: 'blur' }]
-        // email: [{ required: true, message: '请填写企业移动邮箱', trigger: 'blur' }, { validator: validateEmail, message: '箱', trigger: 'blur' }]
-        // telephone: [{ required: true, message: '请填写企业固话', trigger: 'blur' }]
-     }
+        title: [{ required: true, message: '请输入专训名称', trigger: 'blur' }],
+        pic: [{ required: true, message: '请上传图片', trigger: 'blur' }],
+        poster: [{ required: true, message: '请上传图片', trigger: 'blur' }],
+        qrcode: [{ required: true, message: '请上传图片', trigger: 'blur' }]
+      }
     }
   },
   mounted() {
     this.bEdit = this.$route.params.id !== '0'
     if (this.bEdit) {
+      this.formMark = false
       this.getInfos(this.$route.params.id)
+    } else {
+      this.formMark = true
     }
-    this.listLoading = true
     getOSSparams({ type: 'dev_test_dcaredata' }).then(response => {
       this.ossParams = response.data.datas
       this.ulParamsMark = true
@@ -119,39 +204,72 @@ export default {
     })
   },
   methods: {
-    uploadSucess(param) {
-      if (param.index === -1) {
-        this.form.license = param.res_url
-      } else {
-        this.form.logo = param.res_url
-      }
-    },
     getInfos(id) {
       this.listLoading = true
-      this.formMark = false
       getInfo(this.path, { id }).then(response => {
-        this.form = response.data.datas
-        console.log(response)
         this.formMark = true
+        if (this.bEdit) {
+          this.form = response.data.datas.course
+          // console.log(this.form)
+          this.abjTitle = this.form.question_id
+          this.form.sections.forEach((item, i, a) => {
+            item.mediatemp = item.media === null ? null : this.cdn + item.media
+            item.imgstemp = this.formatImg(item.imgs)
+          })
+        }
+        this.teacherList = response.data.datas.teacher
+        this.schoolList = response.data.datas.category
+
         this.listLoading = false
       })
     },
-    onSubmit() {
-      // this.form.score = parseFloat(this.form.score)
+    formatImg(imgs) {
+      var tempList = []
+      imgs.forEach((item, i, a) => {
+        const temp = {
+          uid: '',
+          url: '',
+          name: ''
+        }
+        temp.name = item.substring(item.length - 6)
+        temp.url = this.cdn + item
+        temp.uid = item.replace(/[^0-9]/ig, '')
+        tempList.push(temp)
+      })
+      return tempList
+    },
+    uploadSucess(param) {
+      if (param.res_url !== null) {
+        if (param.type === 3) {
+          if (param.index === -1) {
+            this.form.pic = param.res_url
+          }
+          if (param.index === -2) {
+            this.form.poster = param.res_url
+          }
+          if (param.index === -3) {
+            this.form.qrcode = param.res_url
+          }
+        }
+      }
+    },
+    addCourse() {
+      this.listLoading = true
+      add(this.path, this.form).then(response => {
+        this.listLoading = false
+        this.$message(response.data.message)
+        this.$store.dispatch('delView', this.$route)
+        this.$router.replace('/enterprise/index')
+        sessionStorage.setItem('refresh', JSON.stringify(1))
+      })
+    },
+    onSubmit(mark) {
+      // console.log(this.form)
+      // return
       this.$refs['form'].validate(valid => {
         if (valid) {
-          // console.log(this.form);
-          this.listLoading = true
-          add(this.path, this.form).then(response => {
-            this.$message(response.data.info)
-            this.listLoading = false
-            this.$store.dispatch('delView', this.$route)
-            this.$router.replace('/enterprise/index')
-            sessionStorage.setItem('refresh', JSON.stringify(1))
-          })
-        } else {
-          console.log('error submit!!')
-          return false
+          this.form.id = mark === 2 ? 0 : this.form.id
+          this.addCourse()
         }
       })
     },
@@ -165,37 +283,77 @@ export default {
 }
 </script>
 
-<style scoped>
-.line{
+<style lang="scss" scoped>
+.line {
   text-align: center;
 }
-.divContent{
-  background:#f3f7f9;
-  border-radius: 10px;
-  padding: 20px;
+.courseLists{
+  border: 1px solid gray;
+  padding: 0 30px;
+}
+.sections{
+  margin-top: 30px;
+  width: 260px;
+  text-align: left;
+  font-size: 18px;
+  font-weight: bold;
+  color: brown;
+}
+legend{
+  color: #428BCA;
+  width: 100%;
+  margin: 20px 0;
+  font-size: 16px;
+  line-height: inherit;
+  border-bottom: 1px solid #e5e5e5;
+}
+.deleteClass{
+  position: absolute;
+  cursor: pointer;
+  line-height: 35px;
+  background-color: #FF5B5B!important;
+  border-color: #6FB3E0;
+  vertical-align: inherit;
+  color: white;
+  text-align: center;
+  width: 80px !important;
+  z-index: 1;
+  top: 35px;
+}
+.containers{
   position: relative;
 }
-.delete{
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 30px;
-  height: 30px;
-  font-size: 40px;
-  line-height: 30px;
-  text-align: center;
-  color: rgba(0, 0, 0, 0.3);
-  border: 1px solid gray;
-  border-radius: 50%;
-  transform: rotate(45deg);
-  cursor: pointer;
+.showQL{
+  position: fixed;
+  z-index: 2;
+  width: 60%;
+  height: 60%;
+  top: 20%;
+  left: 20%;
+  border-radius: 15px;
+  .back{
+    background: rgba(0,0,0,0.6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 101;
+  }
+  .content{
+    position: relative;
+    z-index: 102;
+    background: white;
+    height: 100%;
+  }
 }
-.title{
-  clear: both;
-  font-size: 18px;
-}
-.editor-content{
-  margin-top: 20px;
+.testText {
+    color: #FF5B5B;
+    margin-left: 1.634% !important;
+    line-height: 40px;
+    border-radius: 20px;
+    border: 2px solid #07CDCD;
+    padding: 3px 14px;
 }
 </style>
 
