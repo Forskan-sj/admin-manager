@@ -209,6 +209,29 @@ const college = {
       }]
     },
     {
+      path: 'discuss',
+      name: 'Coursediscuss',
+      component: () =>
+        import('@/views/college/course/discuss'),
+      redirect: '/college/course/index',
+      meta: {
+        title: '课程库',
+        icon: 'form'
+      },
+      hidden: true,
+      children: [
+      {
+        path: 'discuss/:id(\\d+)',
+        name: 'Coursediscusss',
+        component: () =>
+          import('@/views/college/course/discuss'),
+        meta: {
+          title: '课程评论',
+          icon: 'form'
+        }
+      }]
+    },
+    {
       path: 'course_edit',
       name: 'CoursePages',
       component: () =>

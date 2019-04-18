@@ -27,6 +27,23 @@ export function getInfo(type, data) {
   })
 }
 
+// 获取课程评价
+export function getEvaluate(type, data) {
+  return request({
+    url: type + '/getEvaluate',
+    method: 'post',
+    data
+  })
+}
+// 回复评论
+export function addEvaluate(type, data) {
+  return request({
+    url: type + '/addEvaluate',
+    method: 'post',
+    data
+  })
+}
+
 export function getBatchList(data) {
   return request({
     url: 'batch/list',

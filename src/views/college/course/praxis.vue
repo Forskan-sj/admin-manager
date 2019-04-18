@@ -131,12 +131,10 @@
 
 <script>
 import Pagination from '@/components/Pagination'
-import elDragDialog from '@/directive/el-dragDialog'
 import { getLists, add } from '@/api/college'
 export default {
-  name: 'CourseList',
+  name: 'CoursePraxiss',
   components: { Pagination },
-  directives: { elDragDialog },
   data() {
     return {
       path: 'praxis',

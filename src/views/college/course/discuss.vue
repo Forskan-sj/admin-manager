@@ -1,23 +1,23 @@
 <template>
   <div class="app-container">
     <div class="filter-container" style="padding-bottom: 10px;">
-      <el-input
+      <!-- <el-input
         v-model="listQuery.key"
         placeholder="课程名称/课程标识"
         style="width: 300px;"
         class="filter-item"
         @keyup.enter.native="handleFilter"
-      />
-      <el-select
-        v-model="listQuery.catid"
-        placeholder="归属分类"
+      /> -->
+      <!-- <el-select
+        v-model="listQuery.status"
+        placeholder="批改状态"
         clearable
         style="width: 150px"
         class="filter-item"
         @change="handleFilter"
       >
         <el-option v-for="item in schoolList" :key="item.id" :label="item.name" :value="item.id"/>
-      </el-select>
+      </el-select> -->
       <!-- <el-select
         v-model="listQuery.type"
         style="width: 140px"
@@ -32,13 +32,12 @@
           :value="item.key"
         />
       </el-select> -->
-      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
+      <!-- <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button> -->
     </div>
-    <div class="addSchoolType">
-      <router-link :to="'/college/course_edit/options/'+'0'">
-        <el-button size="mini" type="success" icon="el-icon-edit" @click="handleModifyStatus">添加课程</el-button>
-      </router-link>
-    </div>
+    <!-- <div class="qstInfo">
+      <div class="courseName" v-text="'课程名称：' + praxisInfo.title"/>
+      <div class="qstTitle" v-text="'课程题目：' + praxisInfo.question"/>
+    </div> -->
     <el-table
       v-loading="listLoading"
       :key="tableKey"
@@ -49,19 +48,35 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column :label="'课程名称'" prop="id" sortable="custom" align="center">
+      <el-table-column :label="'学员名字'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.title }}</span>
+          <span>{{ scope.row.nickname }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="'课程标识'" prop="id" sortable="custom" align="center">
+      <el-table-column :label="'头像'" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.tab }}</span>
+          <img :src="scope.row.avatar" class="imgpic">
         </template>
       </el-table-column>
-      <el-table-column :label="'归属分类'" prop="id" sortable="custom" align="center">
+      <el-table-column :label="'评价内容'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.cat_name }}</span>
+          <div class="discontent">
+            <div class="disC">
+              {{ scope.row.contents }}
+            </div>
+            <div v-if="!scope.row.reply" class="reply">
+              <el-button type="primary" size="small" icon="el-icon-edit" @click="showDTL(scope.row)">回复</el-button>
+            </div>
+          </div>
+          <div v-if="scope.row.reply" class="replycontent">
+            {{ scope.row.teacher + '回复：' + scope.row.reply }}
+          </div>
+        </template>
+
+      </el-table-column>
+      <el-table-column :label="'提交时间'" prop="id" sortable="custom" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.time }}</span>
         </template>
       </el-table-column>
       <!-- <el-table-column :label="'关联套课'" prop="id" sortable="custom" align="center">
@@ -79,25 +94,11 @@
           <div class="userList">{{ scope.row.question_id }}</div>
         </template>
       </el-table-column> -->
-      <el-table-column :label="'发布时间'" prop="id" sortable="custom" align="center">
+      <!-- <el-table-column :label="'操作'" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <span>{{ scope.row.updated_at }}</span>
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="showDTL(scope.row)">查看</el-button>
         </template>
-      </el-table-column>
-      <el-table-column :label="'操作'" align="center" class-name="small-padding fixed-width">
-        <template slot-scope="scope">
-          <router-link :to="'/college/course_edit/options/'+scope.row.id">
-            <el-button type="primary" size="small" icon="el-icon-edit">编辑</el-button>
-          </router-link>
-          <router-link :to="'/college/praxis/praxis/'+scope.row.id">
-            <el-button type="primary" size="small" icon="el-icon-edit">批改</el-button>
-          </router-link>
-          <router-link :to="'/college/discuss/discuss/'+scope.row.id">
-            <el-button type="danger" size="small">评论</el-button>
-          </router-link>
-          <!-- <el-button type="danger" size="small" icon="el-icon-delete">删除</el-button> -->
-        </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
     <pagination
       v-show="total>0"
@@ -111,64 +112,75 @@
 
 <script>
 import Pagination from '@/components/Pagination'
-import { getLists } from '@/api/college'
+import { getEvaluate, addEvaluate } from '@/api/college'
 export default {
-  name: 'CourseList',
+  name: 'Coursediscusss',
   components: { Pagination },
   data() {
     return {
       path: 'course',
-      courseStatus: [
-        { label: '未发布', key: 0 },
-        { label: '已发布', key: 1 }
-      ],
+      tcName: 'admin',
+      score: 0,
+      dialogImageUrl: '',
+      dialogVisible: false,
       listQuery: {
         key: '',
-        catid: '',
-        type: '',
+        status: '',
+        course_id: 0,
         page: 1,
         limit: 10
       },
-      courseKind: [
-        { label: '音频', key: 0 },
-        { label: '视频', key: 1 }
-      ],
       total: 5,
       downloadLoading: false,
       listLoading: false,
       tableKey: 0,
       list: [],
-      schoolList: [],
-      listTemp: []
+      schoolList: [
+        { name: '未批改', id: 1 },
+        { name: '已通过', id: 2 },
+        { name: '驳回', id: 3 }
+      ]
     }
   },
   created() {
+    // this.bEdit = this.$route.params.id !== '0'
+    this.listQuery.course_id = parseInt(this.$route.params.id)
     this.getList()
   },
   mounted() {},
   methods: {
+    addEva(obj) {
+      this.listLoading = true
+      addEvaluate(this.path, obj).then(response => {
+        this.total = response.data.total
+        this.list = response.data.datas.praxis
+        this.praxisInfo = response.data.datas
+        this.listLoading = false
+        this.getList()
+      })
+    },
+    showDTL(obj) {
+      this.$prompt('请输入回复', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      }).then(({ value }) => {
+        if (value) {
+          this.addEva({ eva_id: obj.eva_id, teacher: this.tcName, reply: value })
+        }
+      }).catch(() => {
+      })
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file
+      this.dialogVisible = true
+    },
     onSubmit() {
       this.$message('submit!')
     },
-    onCancel() {
-      this.$message({
-        message: 'cancel!',
-        type: 'warning'
-      })
-    },
-    addSchoolType() {},
-    handleDownload() {},
     handleFilter() {
       this.getList()
     },
     handleCreate() {},
-    handleModifyStatus(row, status) {
-      this.$message({
-        message: '操作成功',
-        type: 'success'
-      })
-      // row.status = status
-    },
     handleUpdate(row) {
       // this.temp = Object.assign({}, row) // copy obj
       // this.temp.timestamp = new Date(this.temp.timestamp)
@@ -187,16 +199,9 @@ export default {
       }
       this.listQuery.page = index.page
       this.listLoading = true
-      getLists(this.path, this.listQuery).then(response => {
+      getEvaluate(this.path, this.listQuery).then(response => {
         this.total = response.data.total
-        this.list = response.data.datas.course
-        this.schoolList = response.data.datas.category
-        if (this.schoolList !== null) {
-          this.list.forEach((a, i, s) => {
-            const catobj = this.schoolList.filter(obj => obj.id === a.catid)
-            a.cat_name = catobj.length === 0 ? '' : catobj[0].name
-          })
-        }
+        this.list = response.data.datas
         this.listLoading = false
       })
     }
@@ -204,24 +209,27 @@ export default {
 }
 </script>
 
-<style scoped>
-.line {
-  text-align: center;
-}
-img {
-  width: 100%;
-}
-.addSchoolType {
-  margin: 30px 0;
-}
-.userList{
+<style lang="scss" scoped>
+
+.imgpic {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
   cursor: pointer;
-  color: blue;
 }
-.cancel-btn {
-  position: absolute;
-  right: 15px;
-  top: 10px;
+.discontent{
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  .reply{
+    margin-left: 10px;
+  }
+}
+.replycontent{
+  margin: 20px 0 0 0;
+  // background: rgba(0,0,0,0.5);
+  color: blue;
+  text-align: left;
 }
 </style>
 

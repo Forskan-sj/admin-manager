@@ -81,12 +81,12 @@
           />
         </el-select>
       </el-form-item>
-      <!-- <el-form-item label="是否发布">
+      <el-form-item label="是否发布">
         <el-radio-group v-model="form.status">
           <el-radio :label="1">是</el-radio>
           <el-radio :label="0">否</el-radio>
         </el-radio-group>
-      </el-form-item> -->
+      </el-form-item>
       <el-form-item
         :rules="{
           required: true, message: '课程简介不能为空', trigger: 'blur'
