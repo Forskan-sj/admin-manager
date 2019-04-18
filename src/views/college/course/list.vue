@@ -89,7 +89,10 @@
           <router-link :to="'/college/course_edit/options/'+scope.row.id">
             <el-button type="primary" size="small" icon="el-icon-edit">编辑</el-button>
           </router-link>
-          <el-button type="danger" size="small" icon="el-icon-delete">删除</el-button>
+          <router-link :to="'/college/praxis/praxis/'+scope.row.id">
+            <el-button type="primary" size="small" icon="el-icon-edit">批改</el-button>
+          </router-link>
+          <!-- <el-button type="danger" size="small" icon="el-icon-delete">删除</el-button> -->
         </template>
       </el-table-column>
     </el-table>

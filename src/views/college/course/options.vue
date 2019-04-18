@@ -122,13 +122,18 @@
           label="课程时长">
           <el-input v-model="list.time"/>
         </el-form-item>
-        <el-form-item
+        <!-- <el-form-item
           label="添加PPT(推荐尺寸: 960 x 720)">
           <up-load v-if="ulParamsMark && formMark" :filelists="list.imgstemp" :index="index" :type="2" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="添加测题" prop="question_id">
           <span v-if="list.qstTitle !== ''" class="testText">{{ list.question_id }}、{{ list.qstTitle }}</span>
           <el-button type="success" @click="showQstList(index)">{{ list.qstTitle == '' ? '选择' : '修改' }}</el-button>
+        </el-form-item>
+        <el-form-item label="课程精华:" prop="contents">
+          <div>
+            <tinymce :height="300" v-model="list.contents"/>
+          </div>
         </el-form-item>
       </div>
     </el-form>
@@ -152,13 +157,14 @@
 </template>
 
 <script>
+import Tinymce from '@/components/Tinymce'
 import DndList from '@/components/DndList'
 import UpLoad from '@/components/UpLoad'
 import QuesSel from '@/components/QuesSel'
 import { add, getInfo, getLists, getOSSparams } from '@/api/college'
 export default {
   name: 'CourseEdit',
-  components: { DndList, UpLoad, QuesSel },
+  components: { DndList, UpLoad, QuesSel, Tinymce },
   data() {
     return {
       formMark: false,
@@ -195,6 +201,7 @@ export default {
           {
             id: 0,
             title: '',
+            contents: '',
             imgs: [],
             media: '',
             time: '',

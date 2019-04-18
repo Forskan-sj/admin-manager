@@ -186,6 +186,29 @@ const college = {
       }]
     },
     {
+      path: 'praxis',
+      name: 'CoursePraxis',
+      component: () =>
+        import('@/views/college/course/praxis'),
+      redirect: '/college/course/index',
+      meta: {
+        title: '课程库',
+        icon: 'form'
+      },
+      hidden: true,
+      children: [
+      {
+        path: 'praxis/:id(\\d+)',
+        name: 'CoursePraxiss',
+        component: () =>
+          import('@/views/college/course/praxis'),
+        meta: {
+          title: '批改作业',
+          icon: 'form'
+        }
+      }]
+    },
+    {
       path: 'course_edit',
       name: 'CoursePages',
       component: () =>
