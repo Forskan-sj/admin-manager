@@ -81,11 +81,18 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="是否发布">
+      <!-- <el-form-item label="是否发布">
         <el-radio-group v-model="form.status">
           <el-radio :label="1">是</el-radio>
           <el-radio :label="0">否</el-radio>
         </el-radio-group>
+      </el-form-item> -->
+      <el-form-item label="上架时间" prop="start_time">
+        <el-date-picker
+          v-model="form.start_time"
+          type="datetime"
+          placeholder="选择日期时间"
+          value-format="yyyy-MM-dd HH:mm:ss"/>
       </el-form-item>
       <el-form-item
         :rules="{
@@ -216,6 +223,7 @@ export default {
         pic: null,
         poster: null,
         catid: 1,
+        start_time: '',
         // type: 1,
         // price: '',
         question_id: -1,
@@ -226,6 +234,7 @@ export default {
       formRules: {
         title: [{ required: true, message: '请输入课程名称', trigger: 'blur' }],
         tab: [{ required: true, message: '请输入标识', trigger: 'blur' }],
+        start_time: [{ required: true, message: '请选择上架时间', trigger: 'blur' }],
         price: [{ required: true, message: '请输入价格', trigger: 'blur' }]
       }
     }
