@@ -69,6 +69,7 @@
       <el-form-item label="课程类型" prop="is_video">
         <el-select
           v-model="form.is_video"
+          :disabled="bEdit"
           style="width: 140px"
           class="filter-item"
           @change="handleFilter(0)"
