@@ -142,7 +142,7 @@ export default {
       dialogImageUrl: '',
       dialogVisible: false,
       // cdn: 'https://cdncollege.quansuwangluo.com/',
-      cdn: 'https://cdncollege.quansuwangluo.com/',
+      cdn: 'https://cdncollege.quansuwangluo.com/college_exercise/',
       curData: {
         avatar: '',
         nickname: '',
