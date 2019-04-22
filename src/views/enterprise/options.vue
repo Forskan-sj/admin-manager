@@ -43,10 +43,14 @@
         prop="pic">
         <up-load v-if="ulParamsMark && formMark" :single-pic="bEdit?cdn+form.pic:form.pic" :index="-1" :type="3" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
       </el-form-item>
-      <el-form-item
+      <!-- <el-form-item
         label="二维码"
         prop="qrcode">
         <up-load v-if="ulParamsMark && formMark" :single-pic="bEdit?cdn+form.qrcode:form.qrcode" :index="-3" :type="3" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
+      </el-form-item> -->
+      <el-form-item
+        label="二维码(推荐尺寸: 960 x 720)">
+        <up-load v-if="ulParamsMark && formMark" :filelists="qrcodeList" :index="1" :type="2" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
       </el-form-item>
       <el-form-item label="开放时间" prop="apply_time">
         <el-date-picker
@@ -187,6 +191,7 @@ export default {
       listQuery: '',
       cdn: 'https://cdncollege.quansuwangluo.com/',
       bEdit: false,
+      qrcodeList: [],
       form: {
         title: '',
         id: 0,
@@ -194,7 +199,7 @@ export default {
         contents: '',
         pic: null,
         // poster: null,
-        qrcode: null
+        qrcode: []
       },
       formRules: {
         title: [{ required: true, message: '请输入专训名称', trigger: 'blur' }],
@@ -227,6 +232,7 @@ export default {
         this.formMark = true
         if (this.bEdit) {
           this.form = response.data.datas
+          this.qrcodeList = this.formatImg(this.form.qrcode)
         }
         this.listLoading = false
       })
@@ -247,7 +253,11 @@ export default {
       return tempList
     },
     uploadSucess(param) {
+      console.log(param)
       if (param.res_url !== null) {
+        if (param.type === 2) {
+          this.form.qrcode = param.res_url
+        }
         if (param.type === 3) {
           if (param.index === -1) {
             this.form.pic = param.res_url

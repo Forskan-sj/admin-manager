@@ -72,11 +72,18 @@
             {{ scope.row.teacher + '回复：' + scope.row.reply }}
           </div>
         </template>
-
       </el-table-column>
       <el-table-column :label="'提交时间'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.time }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="'精选'" sortable="custom" align="center">
+        <template slot-scope="scope">
+          <el-switch
+            v-model="scope.row.is_jx"
+            active-color="#13ce66"
+            @change="topDis(scope.row)"/>
         </template>
       </el-table-column>
       <!-- <el-table-column :label="'关联套课'" prop="id" sortable="custom" align="center">
@@ -112,7 +119,7 @@
 
 <script>
 import Pagination from '@/components/Pagination'
-import { getEvaluate, addEvaluate } from '@/api/college'
+import { getEvaluate, addEvaluate, topEvaluate } from '@/api/college'
 export default {
   name: 'Coursediscusss',
   components: { Pagination },
@@ -149,6 +156,13 @@ export default {
   },
   mounted() {},
   methods: {
+    topDis(obj) {
+      console.log('object')
+      this.listLoading = true
+      topEvaluate(this.path, { eva_id: obj.eva_id, jx: obj.is_jx ? 1 : 0 }).then(response => {
+        this.listLoading = false
+      })
+    },
     addEva(obj) {
       this.listLoading = true
       addEvaluate(this.path, obj).then(response => {

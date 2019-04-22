@@ -64,11 +64,11 @@
           <img :src="cdn + scope.row.poster" class="imgpic" @click="handlePictureCardPreview(scope.row.avatar)">
         </template>
       </el-table-column> -->
-      <el-table-column :label="'二维码'" width="100">
+      <!-- <el-table-column :label="'二维码'" width="100">
         <template slot-scope="scope">
           <img :src="cdn + scope.row.qrcode" class="imgpic" @click="handlePictureCardPreview(scope.row.avatar)">
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <!-- <el-table-column :label="'关联套课'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.catid }}</span>
@@ -89,7 +89,7 @@
           <router-link :to="'/enterprise/options/'+scope.row.id">
             <el-button type="primary" size="small" icon="el-icon-edit">编辑</el-button>
           </router-link>
-          <el-button type="danger" size="small" icon="el-icon-delete">删除</el-button>
+          <!-- <el-button type="danger" size="small" icon="el-icon-delete">删除</el-button> -->
         </template>
       </el-table-column>
     </el-table>

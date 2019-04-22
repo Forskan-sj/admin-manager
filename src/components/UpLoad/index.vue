@@ -123,7 +123,7 @@ export default {
       this.$emit('uploadSucess', { mediaDuration: this.mediaDuration, index: this.index, type: this.type, res_url: fileUrl })
     },
     handleAvatarSuccess(res, file, list) {
-      // console.log(file, list)
+      console.log(file, list)
       // console.log('object')
       this.$refs.upload.submit()
       // file.url = this.vsource

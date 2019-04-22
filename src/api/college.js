@@ -35,6 +35,14 @@ export function getEvaluate(type, data) {
     data
   })
 }
+// 设置精选评价
+export function topEvaluate(type, data) {
+  return request({
+    url: type + '/doJx',
+    method: 'post',
+    data
+  })
+}
 // 回复评论
 export function addEvaluate(type, data) {
   return request({
