@@ -59,11 +59,11 @@
           <img :src="cdn + scope.row.pic" class="imgpic" @click="handlePictureCardPreview(scope.row.avatar)">
         </template>
       </el-table-column>
-      <el-table-column :label="'海报'" width="100">
+      <!-- <el-table-column :label="'海报'" width="100">
         <template slot-scope="scope">
           <img :src="cdn + scope.row.poster" class="imgpic" @click="handlePictureCardPreview(scope.row.avatar)">
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column :label="'二维码'" width="100">
         <template slot-scope="scope">
           <img :src="cdn + scope.row.qrcode" class="imgpic" @click="handlePictureCardPreview(scope.row.avatar)">

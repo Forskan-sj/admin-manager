@@ -40,18 +40,30 @@
       </el-form-item> -->
       <el-form-item
         label="专训封面(推荐尺寸:474 x 354)"
-        prop="qrcode">
+        prop="pic">
         <up-load v-if="ulParamsMark && formMark" :single-pic="bEdit?cdn+form.pic:form.pic" :index="-1" :type="3" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
       </el-form-item>
       <el-form-item
-        label="播放背景图(推荐尺寸:750 x 422 )"
-        prop="poster">
-        <up-load v-if="ulParamsMark && formMark" :single-pic="bEdit?cdn+form.poster:form.poster" :index="-2" :type="3" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
-      </el-form-item>
-      <el-form-item
         label="二维码"
-        prop="poster">
-        <up-load v-if="ulParamsMark && formMark" :single-pic="bEdit?cdn+form.poster:form.poster" :index="-3" :type="3" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
+        prop="qrcode">
+        <up-load v-if="ulParamsMark && formMark" :single-pic="bEdit?cdn+form.qrcode:form.qrcode" :index="-3" :type="3" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
+      </el-form-item>
+      <el-form-item label="开放时间" prop="apply_time">
+        <el-date-picker
+          v-model="form.apply_time"
+          type="datetimerange"
+          range-separator="至"
+          start-placeholder="开始时间"
+          end-placeholder="结束时间"
+          value-format="yyyy-MM-dd HH:mm:ss"/>
+      </el-form-item>
+      <el-form-item label="报名人数" type="number" onkeypress="return( /[\d]/.test(String.fromCharCode(event.keyCode) ) )" prop="num">
+        <el-input v-model="form.num"/>
+      </el-form-item>
+      <el-form-item label="专训介绍:" prop="contents">
+        <div>
+          <tinymce :height="300" v-model="form.contents"/>
+        </div>
       </el-form-item>
       <!-- <el-form-item label="价格" prop="price" >
         <el-input v-model="form.price" style="width:300px;margin-right:10px"/>元
@@ -159,11 +171,12 @@
 <script>
 import DndList from '@/components/DndList'
 import UpLoad from '@/components/UpLoad'
+import Tinymce from '@/components/Tinymce'
 import QuesSel from '@/components/QuesSel'
 import { add, getInfo, getOSSparams } from '@/api/college'
 export default {
   name: 'EnterpriseEdit',
-  components: { DndList, UpLoad, QuesSel },
+  components: { DndList, UpLoad, QuesSel, Tinymce },
   data() {
     return {
       formMark: false,
@@ -177,14 +190,18 @@ export default {
       form: {
         title: '',
         id: 0,
+        num: '',
+        contents: '',
         pic: null,
-        poster: null,
+        // poster: null,
         qrcode: null
       },
       formRules: {
         title: [{ required: true, message: '请输入专训名称', trigger: 'blur' }],
+        apply_time: [{ required: true, message: '请选择时间', trigger: 'blur' }],
+        contents: [{ required: true, message: '请输入专训介绍', trigger: 'blur' }],
         pic: [{ required: true, message: '请上传图片', trigger: 'blur' }],
-        poster: [{ required: true, message: '请上传图片', trigger: 'blur' }],
+        num: [{ required: true, message: '请输入招生学员数量' }], // poster: [{ required: true, message: '请上传图片', trigger: 'blur' }],
         qrcode: [{ required: true, message: '请上传图片', trigger: 'blur' }]
       }
     }
