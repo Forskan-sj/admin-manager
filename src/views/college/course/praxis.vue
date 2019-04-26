@@ -100,6 +100,9 @@
     <!-- <el-dialog v-el-drag-dialog :visible.sync="dialogTableVisible" :title="praxisInfo.question" class="detaiDlg" @dragDialog="handleDrag"> -->
     <div v-if="dialogTableVisible" class="praxisDinfo" @click="dialogTableVisible = false">
       <div class="contentss" @click.stop>
+        <div v-if="curData.status !== 1" class="praxisStatus">
+          {{ curData.status === 2 ? '批改通过：' + curData.score + '钻' : '驳回：' + curData.mark }}
+        </div>
         <div class="userInfo">
           <img :src="curData.avatar">
           <div class="descsss" v-text="curData.nickname + '的作业'"/>
@@ -109,7 +112,7 @@
           <img v-for="(item, index) in curData.img_url" :key="index" :src="cdn + item" @click="handlePictureCardPreview(cdn + item)">
         </div>
 
-        <div class="optionss">
+        <div v-if="curData.status === 1" class="optionss">
           <div class="score">
             <el-radio-group v-model="score">
               <el-radio :label="2">2</el-radio>
