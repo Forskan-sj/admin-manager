@@ -95,7 +95,7 @@
           <router-link :to="'/college/discuss/discuss/'+scope.row.id">
             <el-button type="danger" size="small">评论</el-button>
           </router-link>
-          <!-- <el-button type="danger" size="small" icon="el-icon-delete">删除</el-button> -->
+          <el-button type="danger" size="small" icon="el-icon-delete">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

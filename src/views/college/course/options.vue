@@ -263,7 +263,7 @@ export default {
         if (this.bEdit) {
           this.form = response.data.datas.course
           // console.log(this.form)
-          this.abjTitle = this.form.question_id
+          this.abjTitle = this.form.qstTitle
           this.form.sections.forEach((item, i, a) => {
             item.mediatemp = item.media === null ? null : this.cdn + item.media
             item.imgstemp = this.formatImg(item.imgs)

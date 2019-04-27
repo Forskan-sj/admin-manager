@@ -80,7 +80,7 @@
           <router-link :to="'/college/question_edit/options/'+scope.row.id">
             <el-button type="primary" size="small" icon="el-icon-edit">编辑</el-button>
           </router-link>
-          <!-- <el-button type="danger" size="small" icon="el-icon-delete">删除</el-button> -->
+          <el-button type="danger" size="small" icon="el-icon-delete" @click="del(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -96,7 +96,7 @@
 
 <script>
 import Pagination from '@/components/Pagination'
-import { getLists } from '@/api/college'
+import { getLists, del } from '@/api/college'
 export default {
   name: 'QuestionList',
   components: { Pagination },
@@ -129,6 +129,13 @@ export default {
   },
   mounted() {},
   methods: {
+    del(id) {
+      this.listLoading = true
+      del(this.path, { id }).then(response => {
+        this.listLoading = false
+        this.getList()
+      })
+    },
     onSubmit() {
       this.$message('submit!')
     },

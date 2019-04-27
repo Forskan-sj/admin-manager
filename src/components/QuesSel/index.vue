@@ -4,7 +4,7 @@
     <div class="content">
       <div class="list">
         <div class="titleName">题目列表</div>
-        <div v-for="(i,index) in qstList" :class="{chooseItem: i.id === qstId}" :key="index" class="item" @click="chooseThis(index)">{{ i.id + '.' + i.title }}</div>
+        <div v-for="(i,index) in qstList" :class="{chooseItem: i.id === qstId}" :key="index" class="item" @click="chooseThis(index)">{{ i.id + '.' + i.title + '(' + i.tab + ')' }}</div>
       </div>
       <div class="sel">
         <div class="titleName">已选择题目</div>
