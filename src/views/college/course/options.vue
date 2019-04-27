@@ -365,6 +365,7 @@ export default {
         imgstemp: [],
         time: '',
         qstTitle: '',
+        question_id: -1,
         question: ''
       })
     },
