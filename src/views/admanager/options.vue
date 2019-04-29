@@ -41,6 +41,21 @@
             <up-load v-if="ulParamsMark && formMark" :index="index" :type="3" :single-pic="cdn+item.img_url" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
           </div>
           <div class="title" style="opacity: 0">主标题：</div>
+          <div class="title">排序：</div>
+          <el-input v-model="item.index"/>
+          <div class="title">选择要跳转的页面：</div>
+          <el-select
+            v-model="item.urlKind"
+            placeholder="跳转页面"
+            clearable
+            style="width: 150px"
+            class="filter-item"
+            @change="handleSel"
+          >
+            <el-option v-for="item in linkKind" :key="item.id" :label="item.name" :value="item.id"/>
+          </el-select>
+          <div class="title">ID：</div>
+          <el-input v-model="item.id"/>
           <!-- <el-input v-model="item.title"/>
           <div class="title">排序：</div>
           <el-input v-model="item.index"/>
@@ -53,10 +68,8 @@
           <div class="title">ios_url：</div>
           <el-input v-model="item.ios_url"/> -->
         </div>
-
       </el-form-item>
     </el-form>
-
     <el-form ref="form3" label-width="160px" style="margin-top:30px">
       <el-form-item>
         <el-button type="success" @click="addOptions">添加轮播图</el-button>
@@ -84,9 +97,22 @@ export default {
       ulParamsMark: '',
       listLoading: false,
       cdn: 'https://cdncollege.quansuwangluo.com/',
+      linkKind: [
+        {
+          id: 1,
+          name: '课程',
+          url: 'course'
+        }, {
+          id: 2,
+          url: 'specialEntrance',
+          name: '专训'
+        }
+      ],
       form: {
         contents: [{
-          img_url: null
+          img_url: null,
+          urlKind: '',
+          index: 1
           // title: '',
           // index: 1,
           // des: '',
@@ -120,16 +146,20 @@ export default {
       this.form.contents.splice(index, 1)
       // console.log('object');
     },
+    handleSel() {
+
+    },
     addOptions() {
       const detail = {
-          img_url: null,
-          title: '',
-          index: this.form.contents.length + 1,
-          des: '',
-          url: '',
-          android_url: '',
-          ios_url: ''
-        }
+        img_url: null,
+        title: '',
+        index: this.form.contents.length + 1,
+        des: '',
+        urlKind: '',
+        url: '',
+        android_url: '',
+        ios_url: ''
+      }
       this.form.contents.push(detail)
     },
     uploadSucess(param) {
@@ -147,6 +177,7 @@ export default {
     },
     onSubmit() {
       this.listLoading = true
+      // console.log(this.form);
       add(this.path, this.form).then(response => {
         this.$message(response.data.message)
         this.listLoading = false

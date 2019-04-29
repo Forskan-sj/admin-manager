@@ -3,7 +3,7 @@
     <div class="filter-container" style="padding-bottom: 10px;">
       <el-input
         v-model="listQuery.key"
-        placeholder="课程名称/课程标识"
+        placeholder="课程名称/课程标识/序列号"
         style="width: 300px;"
         class="filter-item"
         @keyup.enter.native="handleFilter"
@@ -49,17 +49,27 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column :label="'课程名称'" prop="id" sortable="custom" align="center">
+      <el-table-column :label="'ID'" prop="id" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.id }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="'课程名称'" prop="title" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.title }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="'课程标识'" prop="id" sortable="custom" align="center">
+      <el-table-column :label="'课程序列号'" prop="list_order" sortable="custom" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.list_order }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="'课程标识'" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.tab }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="'归属分类'" prop="id" sortable="custom" align="center">
+      <el-table-column :label="'归属分类'" prop="catid" sortable="custom" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.cat_name }}</span>
         </template>
@@ -79,23 +89,23 @@
           <div class="userList">{{ scope.row.question_id }}</div>
         </template>
       </el-table-column> -->
-      <el-table-column :label="'发布时间'" prop="id" sortable="custom" align="center">
+      <el-table-column :label="'发布时间'" prop="updated_at" sortable="custom" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.updated_at }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="'操作'" align="center" class-name="small-padding fixed-width">
+      <el-table-column :label="'操作'" align="center" class-name="small-padding fixed-width" width="400">
         <template slot-scope="scope">
-          <router-link :to="'/college/course_edit/options/'+scope.row.id">
-            <el-button type="primary" size="small" icon="el-icon-edit">编辑</el-button>
-          </router-link>
           <router-link :to="'/college/praxis/praxis/'+scope.row.id">
             <el-button type="primary" size="small" icon="el-icon-edit">批改</el-button>
           </router-link>
           <router-link :to="'/college/discuss/discuss/'+scope.row.id">
             <el-button type="danger" size="small">评论</el-button>
           </router-link>
-          <el-button type="danger" size="small" icon="el-icon-delete">删除</el-button>
+          <router-link :to="'/college/course_edit/options/'+scope.row.id">
+            <el-button type="primary" size="small" icon="el-icon-edit">编辑</el-button>
+          </router-link>
+          <el-button type="danger" size="small" icon="el-icon-delete" @click="del(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -111,7 +121,7 @@
 
 <script>
 import Pagination from '@/components/Pagination'
-import { getLists } from '@/api/college'
+import { getLists, del } from '@/api/college'
 export default {
   name: 'CourseList',
   components: { Pagination },
@@ -124,6 +134,8 @@ export default {
       ],
       listQuery: {
         key: '',
+        sort: '',
+        asc: true,
         catid: '',
         type: '',
         page: 1,
@@ -147,6 +159,23 @@ export default {
   },
   mounted() {},
   methods: {
+    del(id) {
+      this.$confirm('此操作将永久删除该课程, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.listLoading = true
+        del(this.path, { id }).then(response => {
+          this.listLoading = false
+          this.getList()
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+        })
+      })
+    },
     onSubmit() {
       this.$message('submit!')
     },
@@ -179,7 +208,11 @@ export default {
       // })
       // this.$router.push('/college/school_type/options')
     },
-    sortChange() {},
+    sortChange(name) {
+      this.listQuery.sort = name.prop
+      this.listQuery.asc = name.order !== 'descending'
+      this.getList()
+    },
     getList(index) {
       index = index || {
         page: this.listQuery.page,

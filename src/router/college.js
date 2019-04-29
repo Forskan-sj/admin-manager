@@ -365,50 +365,50 @@ const college = {
         }
       }]
     },
-    // {
-    //   path: 'exam',
-    //   name: 'ExamPage',
-    //   redirect: '/college/exam/index',
-    //   component: () =>
-    //     import('@/views/college/exam/list'),
-    //   meta: {
-    //     title: '考试管理',
-    //     icon: 'form'
-    //   },
-    //   children: [{
-    //     path: 'index',
-    //     name: 'ExamList',
-    //     component: () =>
-    //       import('@/views/college/exam/list'),
-    //     meta: {
-    //       title: '考试管理',
-    //       icon: 'form'
-    //     }
-    //   }]
-    // },
-    // {
-    //   path: 'exam_edit',
-    //   name: 'ExamEdits',
-    //   component: () =>
-    //     import('@/views/college/exam/options'),
-    //   redirect: '/college/exam/index',
-    //   meta: {
-    //     title: '考试管理',
-    //     icon: 'form'
-    //   },
-    //   hidden: true,
-    //   children: [
-    //   {
-    //     path: 'options/:id(\\d+)',
-    //     name: 'ExamEdit',
-    //     component: () =>
-    //       import('@/views/college/exam/options'),
-    //     meta: {
-    //       title: '编辑考试',
-    //       icon: 'form'
-    //     }
-    //   }]
-    // },
+    {
+      path: 'exam',
+      name: 'ExamPage',
+      redirect: '/college/exam/index',
+      component: () =>
+        import('@/views/college/exam/list'),
+      meta: {
+        title: '考试管理',
+        icon: 'form'
+      },
+      children: [{
+        path: 'index',
+        name: 'ExamList',
+        component: () =>
+          import('@/views/college/exam/list'),
+        meta: {
+          title: '考试管理',
+          icon: 'form'
+        }
+      }]
+    },
+    {
+      path: 'exam_edit',
+      name: 'ExamEdits',
+      component: () =>
+        import('@/views/college/exam/options'),
+      redirect: '/college/exam/index',
+      meta: {
+        title: '考试管理',
+        icon: 'form'
+      },
+      hidden: true,
+      children: [
+      {
+        path: 'options/:id(\\d+)',
+        name: 'ExamEdit',
+        component: () =>
+          import('@/views/college/exam/options'),
+        meta: {
+          title: '编辑考试',
+          icon: 'form'
+        }
+      }]
+    },
     {
       path: 'teacher',
       name: 'TeacherPage',

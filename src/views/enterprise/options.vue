@@ -4,9 +4,9 @@
       <el-form-item label="专训名称" prop="title">
         <el-input v-model="form.title"/>
       </el-form-item>
-      <!-- <el-form-item label="专训标识" prop="tab">
+      <el-form-item label="专训标识" prop="tab">
         <el-input v-model="form.tab"/>
-      </el-form-item> -->
+      </el-form-item>
 
       <!-- <el-form-item label="归属分类" prop="catid">
         <el-select
@@ -64,9 +64,29 @@
       <el-form-item label="报名人数" type="number" onkeypress="return( /[\d]/.test(String.fromCharCode(event.keyCode) ) )" prop="num">
         <el-input v-model="form.num"/>
       </el-form-item>
+      <el-form-item
+        :rules="{
+          required: true, message: '请选择课程', trigger: 'blur'
+        }"
+        label="选择课程">
+        <el-checkbox-group v-model="form.course_ids" class="divCourse">
+          <el-checkbox style="display:none"/>
+          <el-checkbox
+            v-for="item in form.course"
+            :key="item.id"
+            :label="item.id"
+            :value="item.id"
+          > {{ item.title + '(' + catName[item.catid] + ')' }}</el-checkbox>
+        </el-checkbox-group>
+      </el-form-item>
       <el-form-item label="专训介绍:" prop="contents">
         <div>
           <tinymce :height="300" v-model="form.contents"/>
+        </div>
+      </el-form-item>
+      <el-form-item label="报名介绍:" prop="contents2">
+        <div>
+          <tinymce :height="300" v-model="form.contents2"/>
         </div>
       </el-form-item>
       <!-- <el-form-item label="价格" prop="price" >
@@ -160,6 +180,7 @@
       <el-form-item>
         <!-- <el-button v-if="!bEdit" type="primary" @click="onSubmit">添加</el-button> -->
         <el-button type="primary" @click="onSubmit(1)">保存</el-button>
+        <el-button type="primary" @click="onSubmit(2)">保存为新专训</el-button>
         <!-- <el-button type="primary" @click="onSubmit(2)">保存为新专训</el-button> -->
       </el-form-item>
     </el-form>
@@ -189,14 +210,19 @@ export default {
       ulParamsMark: false,
       listLoading: false,
       listQuery: '',
+      courseList: [],
       cdn: 'https://cdncollege.quansuwangluo.com/',
       bEdit: false,
       qrcodeList: [],
+      catName: ['', '基', '进', '高'],
       form: {
+        course_ids: [],
         title: '',
         id: 0,
         num: '',
         contents: '',
+        contents2: '',
+        tab: '',
         pic: null,
         // poster: null,
         qrcode: []
@@ -205,6 +231,7 @@ export default {
         title: [{ required: true, message: '请输入专训名称', trigger: 'blur' }],
         apply_time: [{ required: true, message: '请选择时间', trigger: 'blur' }],
         contents: [{ required: true, message: '请输入专训介绍', trigger: 'blur' }],
+        contents2: [{ required: true, message: '请输入报名介绍', trigger: 'blur' }],
         pic: [{ required: true, message: '请上传图片', trigger: 'blur' }],
         num: [{ required: true, message: '请输入招生学员数量' }], // poster: [{ required: true, message: '请上传图片', trigger: 'blur' }],
         qrcode: [{ required: true, message: '请上传图片', trigger: 'blur' }]
@@ -372,6 +399,11 @@ legend{
     border-radius: 20px;
     border: 2px solid #07CDCD;
     padding: 3px 14px;
+}
+.divCourse{
+  border: 1px solid gray;
+  max-height: 250px;
+  overflow-y: scroll;
 }
 </style>
 

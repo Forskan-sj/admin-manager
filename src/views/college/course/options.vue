@@ -7,7 +7,9 @@
       <el-form-item label="课程标识" prop="tab">
         <el-input v-model="form.tab"/>
       </el-form-item>
-
+      <el-form-item label="课程序列号">
+        <el-input v-model="form.list_order"/>
+      </el-form-item>
       <el-form-item label="归属分类" prop="catid">
         <el-select
           v-model="form.catid"
@@ -82,12 +84,12 @@
           />
         </el-select>
       </el-form-item>
-      <!-- <el-form-item label="是否发布">
+      <el-form-item label="是否发布">
         <el-radio-group v-model="form.status">
           <el-radio :label="1">是</el-radio>
           <el-radio :label="0">否</el-radio>
         </el-radio-group>
-      </el-form-item> -->
+      </el-form-item>
       <el-form-item label="上架时间" prop="start_time">
         <el-date-picker
           v-model="form.start_time"
@@ -219,6 +221,7 @@ export default {
         ],
         title: '',
         teacher_id: 1,
+        list_order: 0,
         tab: '',
         id: 0,
         pic: null,

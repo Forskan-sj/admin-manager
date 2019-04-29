@@ -32,7 +32,7 @@
           :value="item.key"
         />
       </el-select> -->
-      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
+      <!-- <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button> -->
     </div>
     <div class="addSchoolType">
       <router-link :to="'/enterprise/options/'+'0'">
@@ -49,9 +49,19 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
+      <el-table-column :label="'ID'" prop="id" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.id }}</span>
+        </template>
+      </el-table-column>
       <el-table-column :label="'专训名称'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.title }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="'专训标识'" prop="id" sortable="custom" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.tab }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="'缩略图'" width="100">
@@ -89,7 +99,7 @@
           <router-link :to="'/enterprise/options/'+scope.row.id">
             <el-button type="primary" size="small" icon="el-icon-edit">编辑</el-button>
           </router-link>
-          <!-- <el-button type="danger" size="small" icon="el-icon-delete">删除</el-button> -->
+          <el-button type="danger" size="small" icon="el-icon-delete" @click="del(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -105,7 +115,7 @@
 
 <script>
 import Pagination from '@/components/Pagination'
-import { getLists } from '@/api/college'
+import { getLists, del } from '@/api/college'
 export default {
   name: 'EnterpriseList',
   components: { Pagination },
@@ -134,6 +144,23 @@ export default {
   },
   mounted() {},
   methods: {
+    del(id) {
+      this.$confirm('此操作将永久删除该专训, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.listLoading = true
+        del(this.path, { id }).then(response => {
+          this.listLoading = false
+          this.getList()
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+        })
+      })
+    },
     onSubmit() {
       this.$message('submit!')
     },
