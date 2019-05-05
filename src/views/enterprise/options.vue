@@ -52,9 +52,24 @@
         label="二维码(推荐尺寸: 960 x 720)">
         <up-load v-if="ulParamsMark && formMark" :filelists="qrcodeList" :index="1" :type="2" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
       </el-form-item>
-      <el-form-item label="开放时间" prop="apply_time">
+      <el-form-item label="是否上架">
+        <el-radio-group v-model="form.status">
+          <el-radio :label="1">是</el-radio>
+          <el-radio :label="0">否</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item label="报名时间" prop="apply_time">
         <el-date-picker
           v-model="form.apply_time"
+          type="datetimerange"
+          range-separator="至"
+          start-placeholder="开始时间"
+          end-placeholder="结束时间"
+          value-format="yyyy-MM-dd HH:mm:ss"/>
+      </el-form-item>
+      <el-form-item label="开放时间" prop="start_times">
+        <el-date-picker
+          v-model="form.start_times"
           type="datetimerange"
           range-separator="至"
           start-placeholder="开始时间"
@@ -220,6 +235,7 @@ export default {
         title: '',
         id: 0,
         num: '',
+        status: 0,
         contents: '',
         contents2: '',
         tab: '',
@@ -229,7 +245,8 @@ export default {
       },
       formRules: {
         title: [{ required: true, message: '请输入专训名称', trigger: 'blur' }],
-        apply_time: [{ required: true, message: '请选择时间', trigger: 'blur' }],
+        apply_time: [{ required: true, message: '请选择报名时间', trigger: 'blur' }],
+        start_times: [{ required: true, message: '请选择开放时间', trigger: 'blur' }],
         contents: [{ required: true, message: '请输入专训介绍', trigger: 'blur' }],
         contents2: [{ required: true, message: '请输入报名介绍', trigger: 'blur' }],
         pic: [{ required: true, message: '请上传图片', trigger: 'blur' }],

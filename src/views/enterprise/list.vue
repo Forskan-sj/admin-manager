@@ -69,6 +69,11 @@
           <img :src="cdn + scope.row.pic" class="imgpic" @click="handlePictureCardPreview(scope.row.avatar)">
         </template>
       </el-table-column>
+      <el-table-column :label="'是否上架'" prop="id" sortable="custom" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.status === 0 ? '未上架' : '已上架' }}</span>
+        </template>
+      </el-table-column>
       <!-- <el-table-column :label="'海报'" width="100">
         <template slot-scope="scope">
           <img :src="cdn + scope.row.poster" class="imgpic" @click="handlePictureCardPreview(scope.row.avatar)">
