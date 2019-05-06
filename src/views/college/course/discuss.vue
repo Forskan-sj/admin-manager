@@ -126,7 +126,7 @@ export default {
   data() {
     return {
       path: 'course',
-      tcName: 'admin',
+      tcName: '小唐僧',
       score: 0,
       dialogImageUrl: '',
       dialogVisible: false,

@@ -67,7 +67,7 @@
           end-placeholder="结束时间"
           value-format="yyyy-MM-dd HH:mm:ss"/>
       </el-form-item>
-      <el-form-item label="开放时间" prop="start_times">
+      <!-- <el-form-item label="开放时间" prop="start_times">
         <el-date-picker
           v-model="form.start_times"
           type="datetimerange"
@@ -75,7 +75,7 @@
           start-placeholder="开始时间"
           end-placeholder="结束时间"
           value-format="yyyy-MM-dd HH:mm:ss"/>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="报名人数" type="number" onkeypress="return( /[\d]/.test(String.fromCharCode(event.keyCode) ) )" prop="num">
         <el-input v-model="form.num"/>
       </el-form-item>
@@ -99,11 +99,11 @@
           <tinymce :height="300" v-model="form.contents"/>
         </div>
       </el-form-item>
-      <el-form-item label="报名介绍:" prop="contents2">
+      <!-- <el-form-item label="报名介绍:" prop="contents2">
         <div>
           <tinymce :height="300" v-model="form.contents2"/>
         </div>
-      </el-form-item>
+      </el-form-item> -->
       <!-- <el-form-item label="价格" prop="price" >
         <el-input v-model="form.price" style="width:300px;margin-right:10px"/>元
       </el-form-item> -->

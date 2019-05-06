@@ -1,19 +1,19 @@
 <template>
   <div class="app-container">
     <el-form ref="form" :model="form" :rules="formRules" label-width="260px">
-      <el-form-item label="书籍名称:" prop="title">
+      <el-form-item label="奖项名称:" prop="title">
         <el-input v-model="form.title"/>
       </el-form-item>
-      <el-form-item label="书籍作者:" prop="title">
+      <el-form-item label="奖项作者:" prop="title">
         <el-input v-model="form.author"/>
       </el-form-item>
-      <el-form-item label="书籍评分:" prop="title">
+      <el-form-item label="奖项评分:" prop="title">
         <el-input v-model="form.score" placeholder="请输入0-10之间的数字"/>
       </el-form-item>
-      <el-form-item label="书籍封面(推荐尺寸:97 x 130)" prop="pic">
+      <el-form-item label="奖项封面(推荐尺寸:97 x 130)" prop="pic">
         <up-load v-if="ulParamsMark && formMark" :index="-1" :type="3" :single-pic="bEdit?cdn+form.pic:form.pic" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
       </el-form-item>
-      <el-form-item label="书籍分类:" prop="catid">
+      <el-form-item label="奖项分类:" prop="catid">
         <el-select
           v-model="form.catid"
           style="width: 140px"
@@ -98,12 +98,12 @@ export default {
         pic: null
       },
       formRules: {
-        title: [{ required: true, message: '请输入书籍名称', trigger: 'blur' }],
+        title: [{ required: true, message: '请输入奖项名称', trigger: 'blur' }],
         author: [{ required: true, message: '请输入作者名称', trigger: 'blur' }],
         score: [{ required: true, message: '请输入评分', trigger: 'blur' }],
         contents: [{ required: true, message: '请输入推荐理由', trigger: 'blur' }],
         pic: [{ required: true, message: '请上传课程封面', trigger: 'blur' }],
-        catid: [{ required: true, message: '请选择书籍类型', trigger: 'blur' }]
+        catid: [{ required: true, message: '请选择奖项类型', trigger: 'blur' }]
       }
     }
   },
@@ -158,11 +158,11 @@ export default {
     },
     onSubmit() {
       if (isNaN(parseFloat(this.form.score))) {
-       this.$message('书籍评分处请输入合法数字格式')
+       this.$message('奖项评分处请输入合法数字格式')
        return
       }
       if (parseFloat(this.form.score) > 10) {
-        this.$message('书籍评分不能超过10')
+        this.$message('奖项评分不能超过10')
         return
       }
       this.form.score = parseFloat(this.form.score)

@@ -120,6 +120,37 @@ export const asyncRouterMap = [
     // }
   ]
   },
+  {
+    path: '/books',
+    name: 'Bookpage',
+    redirect: '/books/index',
+    component: Layout,
+    meta: {
+      title: '抽奖管理',
+      icon: 'form'
+    },
+    children: [{
+      path: 'index',
+      name: 'BookList',
+      component: () =>
+        import('@/views/books/list'),
+      meta: {
+        title: '抽奖管理',
+        icon: 'form'
+      }
+    },
+    {
+      path: 'options/:id(\\d+)',
+      name: 'BookEdits',
+      component: () =>
+        import('@/views/books/options'),
+      meta: {
+        title: '编辑奖项',
+        icon: 'form'
+      },
+      hidden: true
+    }]
+  },
   college,
   {
     path: '/admanager',
