@@ -213,7 +213,7 @@ import DndList from '@/components/DndList'
 import UpLoad from '@/components/UpLoad'
 import Tinymce from '@/components/Tinymce'
 import QuesSel from '@/components/QuesSel'
-import { add, getInfo, getOSSparams } from '@/api/college'
+import { add, getInfo, getOSSparams, getLists } from '@/api/college'
 export default {
   name: 'EnterpriseEdit',
   components: { DndList, UpLoad, QuesSel, Tinymce },
@@ -231,13 +231,14 @@ export default {
       qrcodeList: [],
       catName: ['', '基', '进', '高'],
       form: {
+        course: [],
         course_ids: [],
         title: '',
         id: 0,
         num: '',
         status: 0,
         contents: '',
-        contents2: '',
+        // contents2: '',
         tab: '',
         pic: null,
         // poster: null,
@@ -246,9 +247,9 @@ export default {
       formRules: {
         title: [{ required: true, message: '请输入专训名称', trigger: 'blur' }],
         apply_time: [{ required: true, message: '请选择报名时间', trigger: 'blur' }],
-        start_times: [{ required: true, message: '请选择开放时间', trigger: 'blur' }],
+        // start_times: [{ required: true, message: '请选择开放时间', trigger: 'blur' }],
         contents: [{ required: true, message: '请输入专训介绍', trigger: 'blur' }],
-        contents2: [{ required: true, message: '请输入报名介绍', trigger: 'blur' }],
+        // contents2: [{ required: true, message: '请输入报名介绍', trigger: 'blur' }],
         pic: [{ required: true, message: '请上传图片', trigger: 'blur' }],
         num: [{ required: true, message: '请输入招生学员数量' }], // poster: [{ required: true, message: '请上传图片', trigger: 'blur' }],
         qrcode: [{ required: true, message: '请上传图片', trigger: 'blur' }]
@@ -257,11 +258,11 @@ export default {
   },
   mounted() {
     this.bEdit = this.$route.params.id !== '0'
+    this.formMark = false
     if (this.bEdit) {
-      this.formMark = false
       this.getInfos(this.$route.params.id)
     } else {
-      this.formMark = true
+      this.getCourseList()
     }
     getOSSparams({ type: 'dev_test_dcaredata' }).then(response => {
       this.ossParams = response.data.datas
@@ -270,6 +271,14 @@ export default {
     })
   },
   methods: {
+    getCourseList() {
+      this.listLoading = true
+      getLists('course', { page: 1, limit: 99999 }).then(response => {
+        this.form.course = response.data.datas.course
+        this.listLoading = false
+        this.formMark = true
+      })
+    },
     getInfos(id) {
       this.listLoading = true
       getInfo(this.path, { id }).then(response => {
