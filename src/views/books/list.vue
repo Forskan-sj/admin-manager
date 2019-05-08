@@ -27,24 +27,25 @@
       </el-table-column>
       <el-table-column :label="'奖品数量'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.cat_name }}</span>
+          <span>{{ scope.row.num }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="'奖品概率'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.author }}</span>
+          <span>{{ scope.row.rate }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="'奖品图标'" prop="id" sortable="custom" align="center" width="100">
         <template slot-scope="scope">
-          <img :src="scope.row.pic" class="imgpic" @click="handlePictureCardPreview(scope.row.pic)">
+          <img :src="cdn + scope.row.img" class="imgpic" @click="handlePictureCardPreview(cdn + scope.row.img)">
         </template>
       </el-table-column>
       <el-table-column :label="'是否有奖'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
-          <el-switch
-            v-model="scope.row.status"
-            active-color="#13ce66"/>
+          <!-- <el-switch
+            v-model="scope.row.is_true"
+            active-color="#13ce66"/> -->
+          {{ scope.row.is_true ? '有' : '无' }}
         </template>
       </el-table-column>
       <el-table-column :label="'操作'" align="center" class-name="small-padding fixed-width">
@@ -64,7 +65,7 @@
       :limit.sync="listQuery.limit"
       @pagination="getList"
     />
-    <el-button size="mini" type="success" icon="el-icon-edit" @click="handleModifyStatus(0)">添加</el-button>
+    <el-button class="addGift" size="mini" type="success" icon="el-icon-edit" @click="handleModifyStatus(0)">添加奖品</el-button>
     <el-dialog :title="eldTitle" :visible.sync="dialogVisible">
       <img v-if="imgMark" :src="dialogImageUrl" width="100%" >
       <el-form v-if="!imgMark" ref="form" :model="form" :rules="formRules" label-width="150px">
@@ -72,19 +73,19 @@
           <el-input v-model="form.title"/>
         </el-form-item>
         <el-form-item label="奖品数量:" prop="title">
-          <el-input v-model="form.author" type="number"/>
+          <el-input v-model="form.num" type="number"/>
         </el-form-item>
         <el-form-item label="奖品概率:" prop="title">
-          <el-input v-model="form.score" type="number"/>
+          <el-input v-model="form.rate" type="number"/>
         </el-form-item>
         <el-form-item label="是否有奖:" prop="status">
-          <el-radio-group v-model="form.status">
+          <el-radio-group v-model="form.is_true">
             <el-radio :label="1">有</el-radio>
             <el-radio :label="0">无</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="奖品图标(80 x 80 *.png)" prop="pic">
-          <up-load v-if="ulParamsMark && formMark" :index="-1" :type="3" :single-pic="bEdit?cdn+form.pic:form.pic" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
+          <up-load v-if="ulParamsMark && formMark" :index="-1" :type="3" :single-pic="bEdit ? cdn + form.img : form.img" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
         </el-form-item>
 
         <el-form-item>
@@ -97,14 +98,14 @@
 
 <script>
 import Pagination from '@/components/Pagination'
-import { getLists, del, getOSSparams } from '@/api/college'
+import { getLists, del, getOSSparams, add } from '@/api/college'
 import UpLoad from '@/components/UpLoad'
 export default {
   name: 'BookList',
   components: { Pagination, UpLoad },
   data() {
     return {
-      path: 'user',
+      path: 'lottery',
       imgMark: false,
       bEdit: false,
       dialogImageUrl: '',
@@ -120,24 +121,18 @@ export default {
       ossParams: '',
       ulParamsMark: '',
       form: {
-        buy: [{
-          img_url: null,
-          title: '',
-          index: 0
-        }],
-        score: '',
-        catid: 1,
-        contents: '',
+        id: 0,
         title: '',
-        author: '',
-        status: 1,
-        pic: null
+        num: '',
+        rate: 0,
+        is_true: 1,
+        img: null
       },
       formRules: {
         title: [{ required: true, message: '请输入奖品名称', trigger: 'blur' }],
-        author: [{ required: true, message: '请输入作者名称', trigger: 'blur' }],
-        score: [{ required: true, message: '请输入评分', trigger: 'blur' }],
-        pic: [{ required: true, message: '请上传课程封面', trigger: 'blur' }]
+        num: [{ required: true, message: '请输入奖品数量', trigger: 'blur' }],
+        rate: [{ required: true, message: '请输入奖品概率', trigger: 'blur' }],
+        img: [{ required: true, message: '请上传奖品图标', trigger: 'blur' }]
       },
       total: 5,
       listLoading: false,
@@ -147,7 +142,7 @@ export default {
     }
   },
   created() {
-
+    this.getList()
   },
   mounted() {
     this.listLoading = true
@@ -160,9 +155,7 @@ export default {
   methods: {
     uploadSucess(param) {
       if (param.index === -1) {
-        this.form.pic = param.res_url
-      } else {
-        this.form.buy[param.index].img_url = param.res_url
+        this.form.img = param.res_url
       }
     },
     del(id) {
@@ -180,7 +173,16 @@ export default {
       this.dialogVisible = true
     },
     onSubmit() {
-      this.$message('submit!')
+      this.listLoading = true
+      add(this.path, this.form).then(response => {
+        this.listLoading = false
+        this.dialogVisible = false
+        this.getList()
+        this.$message({
+          message: response.message,
+          type: 'success'
+        })
+      })
     },
     onCancel() {
       this.$message({
@@ -195,6 +197,15 @@ export default {
     handleModifyStatus(row) {
       this.bEdit = row !== 0
       this.imgMark = false
+      const temp = {
+        id: 0,
+        title: '',
+        num: '',
+        rate: 0,
+        is_true: 1,
+        img: null
+      }
+      this.form = this.bEdit ? row : temp
       this.eldTitle = '编辑奖品'
       this.dialogVisible = true
     },
@@ -227,17 +238,8 @@ export default {
 </script>
 
 <style scoped>
-.line {
-  text-align: center;
-}
-.imgpic {
-  width: 100%;
-  height: 50px;
-  object-fit: cover;
-  cursor: pointer;
-}
-.addSchoolType {
-  margin: 30px 0;
+.addGift{
+  margin-top: 50px;
 }
 </style>
 

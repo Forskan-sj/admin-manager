@@ -9,6 +9,42 @@ export function getLists(path, data) {
   })
 }
 
+// 获取得奖列表列表
+export function getGiftLists(path, data) {
+  return request({
+    url: path + '/getUser',
+    method: 'post',
+    data
+  })
+}
+
+// 授予勋章
+export function giveMedal(path, data) {
+  return request({
+    url: path + '/giveMedal',
+    method: 'post',
+    data
+  })
+}
+
+// 获取抽奖说明
+export function getInfoContent(path, data) {
+  return request({
+    url: path + '/getContent',
+    method: 'post',
+    data
+  })
+}
+
+// 保存抽奖说明
+export function editInfoContent(path, data) {
+  return request({
+    url: path + '/editContent',
+    method: 'post',
+    data
+  })
+}
+
 //  添加
 export function add(path, data) {
   return request({

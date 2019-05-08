@@ -35,8 +35,8 @@
       <!-- <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button> -->
     </div>
     <div class="addSchoolType">
-      <router-link :to="'/enterprise/options/'+'0'">
-        <el-button size="mini" type="success" icon="el-icon-edit" @click="handleModifyStatus">添加专训营</el-button>
+      <router-link :to="'/medal/options/'+'0'">
+        <el-button size="mini" type="success" icon="el-icon-edit">添加勋章</el-button>
       </router-link>
     </div>
     <el-table
@@ -54,24 +54,19 @@
           <span>{{ scope.row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="'专训名称'" prop="id" sortable="custom" align="center">
+      <el-table-column :label="'所属专训'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.title }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="'专训标识'" prop="id" sortable="custom" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.tab }}</span>
-        </template>
-      </el-table-column>
       <el-table-column :label="'缩略图'" width="100">
         <template slot-scope="scope">
-          <img :src="cdn + scope.row.pic" class="imgpic" @click="handlePictureCardPreview(scope.row.avatar)">
+          <img :src="cdn + scope.row.img1" class="imgpic" @click="handlePictureCardPreview(cdn + scope.row.img1)">
         </template>
       </el-table-column>
-      <el-table-column :label="'是否上架'" prop="id" sortable="custom" align="center">
+      <el-table-column :label="'描述'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.status === 0 ? '未上架' : '已上架' }}</span>
+          <span>{{ scope.row.desc }}</span>
         </template>
       </el-table-column>
       <!-- <el-table-column :label="'海报'" width="100">
@@ -101,11 +96,8 @@
       </el-table-column> -->
       <el-table-column :label="'操作'" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <router-link :to="'/enterprise/options/'+scope.row.id">
+          <router-link :to="'/medal/options/'+scope.row.id">
             <el-button type="primary" size="small" icon="el-icon-edit">编辑</el-button>
-          </router-link>
-          <router-link :to="'/enterprise/users/'+scope.row.id">
-            <el-button type="primary" size="small" icon="el-icon-edit">学员</el-button>
           </router-link>
           <el-button type="danger" size="small" icon="el-icon-delete" @click="del(scope.row.id)">删除</el-button>
         </template>
@@ -118,6 +110,9 @@
       :limit.sync="listQuery.limit"
       @pagination="getList"
     />
+    <el-dialog :visible.sync="dialogVisible">
+      <img :src="dialogImageUrl" width="100%" >
+    </el-dialog>
   </div>
 </template>
 
@@ -125,11 +120,11 @@
 import Pagination from '@/components/Pagination'
 import { getLists, del } from '@/api/college'
 export default {
-  name: 'EnterpriseList',
+  name: 'MedalList',
   components: { Pagination },
   data() {
     return {
-      path: 'special',
+      path: 'medal',
       listQuery: {
         key: '',
         catid: '',
@@ -140,6 +135,8 @@ export default {
       cdn: 'https://cdncollege.quansuwangluo.com/',
       total: 5,
       downloadLoading: false,
+      dialogImageUrl: '',
+      dialogVisible: false,
       listLoading: false,
       tableKey: 0,
       list: [],
@@ -182,6 +179,10 @@ export default {
     handleDownload() {},
     handleFilter() {
       this.getList()
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file
+      this.dialogVisible = true
     },
     handleCreate() {},
     handleModifyStatus(row, status) {

@@ -98,12 +98,65 @@ export const asyncRouterMap = [
       }
     },
     {
+      path: 'users/:id(\\d+)',
+      name: 'EnterpriseUserList',
+      component: () =>
+        import('@/views/enterprise/users'),
+      meta: {
+        title: '学生列表',
+        icon: 'form'
+      },
+      hidden: true
+    },
+    {
       path: 'options/:id(\\d+)',
       name: 'EnterpriseEdit',
       component: () =>
         import('@/views/enterprise/options'),
       meta: {
         title: '专训营编辑',
+        icon: 'form'
+      },
+      hidden: true
+    }
+    // {
+    //   path: 'department',
+    //   name: 'Department',
+    //   component: () =>
+    //     import('@/views/enterprise/department'),
+    //   meta: {
+    //     title: '编辑部门',
+    //     icon: 'form'
+    //   }
+    // }
+  ]
+  },
+  {
+    path: '/medal',
+    name: 'Medal',
+    redirect: '/medal/index',
+    component: Layout,
+    meta: {
+      title: '勋章',
+      icon: 'form'
+    },
+    children: [{
+      path: 'index',
+      name: 'MedalList',
+      component: () =>
+        import('@/views/medal/list'),
+      meta: {
+        title: '勋章',
+        icon: 'form'
+      }
+    },
+    {
+      path: 'options/:id(\\d+)',
+      name: 'MedalEdit',
+      component: () =>
+        import('@/views/medal/options'),
+      meta: {
+        title: '勋章编辑',
         icon: 'form'
       },
       hidden: true
@@ -135,7 +188,27 @@ export const asyncRouterMap = [
       component: () =>
         import('@/views/books/list'),
       meta: {
-        title: '抽奖管理',
+        title: '奖项列表',
+        icon: 'form'
+      }
+    },
+    {
+      path: 'activeInfo',
+      name: 'ActiveInfo',
+      component: () =>
+        import('@/views/books/activeInfo'),
+      meta: {
+        title: '活动说明',
+        icon: 'form'
+      }
+    },
+    {
+      path: 'gifterList',
+      name: 'GifterList',
+      component: () =>
+        import('@/views/books/gifterList'),
+      meta: {
+        title: '中奖列表',
         icon: 'form'
       }
     },
