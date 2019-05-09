@@ -249,7 +249,7 @@ export default {
         apply_time: [{ required: true, message: '请选择报名时间', trigger: 'blur' }],
         // start_times: [{ required: true, message: '请选择开放时间', trigger: 'blur' }],
         contents: [{ required: true, message: '请输入专训介绍', trigger: 'blur' }],
-        // contents2: [{ required: true, message: '请输入报名介绍', trigger: 'blur' }],
+        tab: [{ required: true, message: '请输入标识', trigger: 'blur' }],
         pic: [{ required: true, message: '请上传图片', trigger: 'blur' }],
         num: [{ required: true, message: '请输入招生学员数量' }], // poster: [{ required: true, message: '请上传图片', trigger: 'blur' }],
         qrcode: [{ required: true, message: '请上传图片', trigger: 'blur' }]

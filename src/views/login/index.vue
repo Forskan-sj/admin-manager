@@ -87,14 +87,16 @@ export default {
           this.loading = true
           this.$store.dispatch('Login', this.loginForm).then((res) => {
             this.loading = false
-            if (!res.data.status) {
+            // if (!res.data.status) {
               this.$message({
-                message: res.data.info,
-                type: 'error'
+                message: res.data.message,
+                type: 'warning'
               })
-              return
-            }
-            this.$router.push({ path: this.redirect || '/' })
+              // return
+            // }
+            setTimeout(() => {
+              this.$router.push({ path: this.redirect || '/' })
+            }, 1500)
           }).catch(() => {
             this.loading = false
           })

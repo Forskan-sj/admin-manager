@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
-
+import { logout } from '@/api/login'
 // create an axios instance
 const service = axios.create({
   baseURL: process.env.BASE_API, // api 的 base_url
@@ -33,8 +33,22 @@ service.interceptors.response.use(
   // response => response,
   response => {
     const res = response.data
-    if (res.status !== 0) {
+    if (res.status === 1) {
       return Promise.resolve(response)
+    } else if (res.status === 10) {
+      Message({
+        message: res.message,
+        type: 'error',
+        duration: 5 * 1000
+      })
+      setTimeout(() => {
+        logout().then(response => {
+          store.dispatch('FedLogOut').then(() => {
+            window.location.href = window.location.href.substring(0, window.location.href.indexOf('#') + 1) + '/login'
+            // location.reload()
+          })
+        })
+      }, 2000)
     } else {
       Message({
         message: res.message,
