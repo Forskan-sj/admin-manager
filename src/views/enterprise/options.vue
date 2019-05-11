@@ -213,12 +213,14 @@ import DndList from '@/components/DndList'
 import UpLoad from '@/components/UpLoad'
 import Tinymce from '@/components/Tinymce'
 import QuesSel from '@/components/QuesSel'
+import Sortable from 'sortablejs'
 import { add, getInfo, getOSSparams, getLists } from '@/api/college'
 export default {
   name: 'EnterpriseEdit',
   components: { DndList, UpLoad, QuesSel, Tinymce },
   data() {
     return {
+      sortable: null,
       formMark: false,
       path: 'special',
       ossParams: {},
@@ -277,6 +279,29 @@ export default {
         this.form.course = response.data.datas.course
         this.listLoading = false
         this.formMark = true
+        this.$nextTick(() => {
+          this.setSort()
+        })
+      })
+    },
+    setSort() {
+      // const el = document.querySelectorAll('.el-table__body-wrapper > table > tbody')[0]
+      const el = document.querySelectorAll('.divCourse')[0]
+      this.sortable = Sortable.create(el, {
+        ghostClass: 'sortable-ghost', // Class name for the drop placeholder,
+        setData: function(dataTransfer) {
+          dataTransfer.setData('Text', '')
+          // to avoid Firefox bug
+          // Detail see : https://github.com/RubaXa/Sortable/issues/1012
+        },
+        onEnd: evt => {
+          const targetRow = this.form.course.splice(evt.oldIndex, 1)[0]
+          this.form.course.splice(evt.newIndex, 0, targetRow)
+
+          // for show the changes, you can delete in you code
+          // const tempIndex = this.newList.splice(evt.oldIndex, 1)[0]
+          // this.newList.splice(evt.newIndex, 0, tempIndex)
+        }
       })
     },
     getInfos(id) {
@@ -288,6 +313,9 @@ export default {
           this.qrcodeList = this.formatImg(this.form.qrcode)
         }
         this.listLoading = false
+        this.$nextTick(() => {
+          this.setSort()
+        })
       })
     },
     formatImg(imgs) {
@@ -335,7 +363,7 @@ export default {
       })
     },
     onSubmit(mark) {
-      // console.log(this.form)
+      console.log(this.form)
       // return
       this.$refs['form'].validate(valid => {
         if (valid) {

@@ -36,7 +36,7 @@
 
 <script>
 // import draggable from 'vuedraggable'
-
+// import Sortable from 'sortablejs'
 export default {
   name: 'UpLoad',
   // components: { draggable },

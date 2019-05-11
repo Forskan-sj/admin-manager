@@ -66,6 +66,10 @@ export const asyncRouterMap = [
   {
     path: '/userlist',
     component: Layout,
+    meta: {
+      title: '会员管理',
+      icon: 'user'
+    },
     children: [{
       path: 'index',
       name: 'manager',
@@ -327,69 +331,69 @@ export const asyncRouterMap = [
   //     }
   //   }]
   // },
-  // {
-  //   path: '/version',
-  //   name: 'Version',
-  //   redirect: '/version/index',
-  //   component: Layout,
-  //   meta: {
-  //     title: '版本信息',
-  //     icon: 'form'
-  //   },
-  //   children: [{
-  //     path: 'index',
-  //     name: 'VersionList',
-  //     component: () =>
-  //       import('@/views/version/list'),
-  //     meta: {
-  //       title: '版本信息',
-  //       icon: 'form'
-  //     }
-  //   },
-  //   {
-  //     path: 'options/:id(\\d+)',
-  //     name: 'VersionEdit',
-  //     component: () =>
-  //       import('@/views/version/options'),
-  //     meta: {
-  //       title: '编辑版本信息',
-  //       icon: 'form'
-  //     },
-  //     hidden: true
-  //   }]
-  // },
+  {
+    path: '/version',
+    name: 'Version',
+    redirect: '/version/index',
+    component: Layout,
+    meta: {
+      title: '校长留言',
+      icon: 'form'
+    },
+    children: [{
+      path: 'index',
+      name: 'VersionList',
+      component: () =>
+        import('@/views/version/list'),
+      meta: {
+        title: '校长留言',
+        icon: 'form'
+      }
+    },
+    {
+      path: 'options/:id(\\d+)',
+      name: 'VersionEdit',
+      component: () =>
+        import('@/views/version/options'),
+      meta: {
+        title: '编辑校长留言',
+        icon: 'form'
+      },
+      hidden: true
+    }]
+  },
 
-  // {
-  //   path: '/notice',
-  //   name: 'NoticePage',
-  //   component: Layout,
-  //   redirect: '/notice/index',
-  //   meta: {
-  //     title: '消息管理',
-  //     icon: 'form'
-  //   },
-  //   children: [{
-  //     path: 'index',
-  //     name: 'NoticeList',
-  //     component: () =>
-  //       import('@/views/notice/list'),
-  //     meta: {
-  //       title: '消息管理',
-  //       icon: 'form'
-  //     }
-  //   },
-  //   {
-  //     path: 'options/:id(\\d+)',
-  //     name: 'NoticeEdit',
-  //     component: () =>
-  //       import('@/views/notice/options'),
-  //     meta: {
-  //       title: '编辑消息',
-  //       icon: 'form'
-  //     },
-  //     hidden: true
-  //   }]
-  // },
+  {
+    path: '/notice',
+    name: 'NoticePage',
+    component: Layout,
+    redirect: '/notice/index',
+    meta: {
+      title: '消息管理',
+      icon: 'form'
+    },
+    children: [{
+      path: 'index',
+      name: 'NoticeList',
+      component: () =>
+        import('@/views/notice/list'),
+      meta: {
+        title: '消息管理',
+        icon: 'form'
+      }
+    },
+    {
+      path: 'options/:id(\\d+)',
+      name: 'NoticeEdit',
+      component: () =>
+        import('@/views/notice/options'),
+      meta: {
+        title: '编辑消息',
+        icon: 'form'
+      },
+      hidden: true
+    }]
+  }
   // {
   //   path: '/permissionEdit',
   //   name: 'PermissionEdit',
@@ -405,7 +409,7 @@ export const asyncRouterMap = [
   //     component: () =>
   //       import('@/views/permissionEdit/list'),
   //     meta: {
-  //       title: '角色权限',
+  //       title: '管理员',
   //       icon: 'user'
   //     }
   //   },
@@ -415,21 +419,21 @@ export const asyncRouterMap = [
   //     component: () =>
   //       import('@/views/permissionEdit/options'),
   //     meta: {
-  //       title: '编辑权限',
+  //       title: '级别',
   //       icon: 'user'
   //     },
   //     hidden: true
   //   },
   //   {
-  //     path: 'manageroptions/:id(\\d+)',
+  //     path: 'manageroptions',
   //     name: 'PermissionManagers',
   //     component: () =>
   //       import('@/views/permissionEdit/manageroptions'),
   //     meta: {
-  //       title: '设置管理员',
+  //       title: '级别权限',
   //       icon: 'user'
-  //     },
-  //     hidden: true
+  //     }
+  //     // hidden: true
   //   },
   //   {
   //     path: 'permissionList',
@@ -437,10 +441,10 @@ export const asyncRouterMap = [
   //     component: () =>
   //       import('@/views/permissionEdit/permissionList'),
   //     meta: {
-  //       title: '管理员',
+  //       title: '级别',
   //       icon: 'user'
   //     }
   //   }]
-  // },
-  { path: '*', redirect: '/404', hidden: true }
+  // }
+  // { path: '*', redirect: '/404', hidden: true }
 ]

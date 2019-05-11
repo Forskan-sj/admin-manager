@@ -104,6 +104,11 @@
           <span>{{ scope.row.mobile }}</span>
         </template>
       </el-table-column>
+      <el-table-column :label="'级别'" width="150" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.level }}</span>
+        </template>
+      </el-table-column>
       <el-table-column :label="'是否获得勋章'" align="center">
         <template slot-scope="scope">
           <span>{{ !scope.row.is_over ? '否' : '是' }}</span>

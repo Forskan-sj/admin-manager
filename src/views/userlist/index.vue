@@ -103,6 +103,16 @@
           <span>{{ scope.row.student_id }}</span>
         </template>
       </el-table-column>
+      <el-table-column :label="'级别'" width="150" align="center">
+        <template slot-scope="scope">
+          <span>{{ province_list[scope.row.level - 1] }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="'钻石'" width="150" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.score }}</span>
+        </template>
+      </el-table-column>
       <!-- <el-table-column :label="'关联企业'" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.cat_name }}</span>
@@ -152,6 +162,15 @@ export default {
   components: { Pagination },
   data() {
     return {
+      province_list: [
+        '品牌合作分公司',
+        '分公司董事',
+        '分公司营销总监',
+        '一级授权代理',
+        '二级授权代理',
+        '三级授权代理',
+        '特约授权代理'
+      ],
       path: 'user',
       dialogImageUrl: '',
       qy_list: [],

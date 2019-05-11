@@ -1,28 +1,5 @@
 <template>
   <div class="app-container">
-    <!-- <div class="addSchoolType">
-      <router-link :to="'/enterprise/options/'+'0'">
-        <el-button size="mini" type="success" icon="el-icon-edit" @click="handleModifyStatus">添加</el-button>
-      </router-link>
-    </div> -->
-    <el-input
-      v-model="listQuery.key"
-      placeholder="企业名称"
-      style="width: 200px;"
-      class="filter-item"
-      @keyup.enter.native="handleFilter"
-    />
-    <el-select
-      v-model="listQuery.status"
-      placeholder="审核状态"
-      clearable
-      style="width: 150px"
-      class="filter-item"
-      @change="handleFilter"
-    >
-      <el-option v-for="(item, index) in qy_status" :key="index" :label="item" :value="index"/>
-    </el-select>
-    <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
     <div style="height:30px"/>
     <el-table
       v-loading="listLoading"
@@ -34,26 +11,75 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column :label="'ID'" prop="id" sortable="custom" align="center">
+      <!-- <el-table-column :label="'ID'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.id }}</span>
         </template>
-      </el-table-column>
-      <el-table-column :label="'企业名称'" prop="id" sortable="custom" align="center">
+      </el-table-column> -->
+      <el-table-column type="selection" align="center" width="40"/>
+      <el-table-column :label="'企业行业'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.name }}</span>
+          <span>{{ scope.row.meta ? scope.row.meta.title : scope.row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="'企业行业'" prop="id" sortable="custom" align="center">
+      <el-table-column :label="'功能模块'" prop="title" sortable="custom" align="center">
+        <!-- <template slot-scope="scope">
+          <span>{{ scope.row.meta ? scope.row.meta.title : scope.row.name }}</span>
+        </template> -->
+
+        <template slot-scope="scope" class="tabspan">
+          <el-table
+            :data="scope.row.children"
+            :show-header="false"
+            border
+            @selection-change="handleSelectionChange"
+          >
+            <el-table-column v-if="!scope.row.hidden" type="selection" align="center" width="140"/>
+            <el-table-column v-if="!scope.row.hidden" fixed prop="meta.title" label="meta.title" align="center" sortable width="270"/>
+            <!-- <el-table-column prop="name" label="权限名称" align="center" width="320"/> -->
+            <!-- <el-table-column
+              prop="title"
+              label="权限规则"
+              align="center"
+              class-name="small-padding fixed-width"
+            ></el-table-column>
+
+            <el-table-column align="center" :label="'状态'" width="120">
+              <template slot-scope="scope">
+                <el-switch
+                  v-model="scope.row.status"
+                  active-color="#13ce66"
+                  @change="tabStatus(scope.row.status,scope.row.id)"
+                />
+              </template>
+            </el-table-column>
+
+            <el-table-column fixed="right" label="操作" align="center" width="300">
+              <template slot-scope="scope">
+                <el-button
+                  type="primary"
+                  size="small"
+                  icon="el-icon-edit"
+                  @click="addGroups('2',scope.row)"
+                >编辑</el-button>
+                <el-button
+                  type="danger"
+                  size="small"
+                  icon="el-icon-delete"
+                  @click="delt(scope.row.id,scope.$index,tableData)"
+                >删除</el-button>
+              </template>
+            </el-table-column> -->
+          </el-table>
+        </template>
+      </el-table-column>
+
+      <!-- <el-table-column :label="'企业行业'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.industry }}</span>
         </template>
       </el-table-column>
-      <!-- <el-table-column :label="'文章封面'" prop="id" sortable="custom" align="center">
-        <template slot-scope="scope">
-          <img :src="scope.row.pic" class="imgpic" @click="handlePictureCardPreview(scope.row.pic)">
-        </template>
-      </el-table-column> -->
+
       <el-table-column :label="'审核状态'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
           <span>{{ qy_status[scope.row.status] }}</span>
@@ -69,9 +95,8 @@
           <router-link :to="'/enterprise/options/'+scope.row.id">
             <el-button type="primary" size="small" icon="el-icon-edit">编辑</el-button>
           </router-link>
-          <!-- <el-button type="danger" size="small" icon="el-icon-delete" @click="del(scope.row.id)">删除</el-button> -->
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
     <pagination
       v-show="total>0"
@@ -89,6 +114,7 @@
 <script>
 import Pagination from '@/components/Pagination'
 import { getLists, del } from '@/api/college'
+import { asyncRouterMap } from '@/router'
 export default {
   name: 'PermissionManagers',
   components: { Pagination },
@@ -124,7 +150,9 @@ export default {
 
   },
   mounted() {
-    this.getBookKind()
+    // this.getBookKind()
+    this.list = asyncRouterMap
+    console.log(asyncRouterMap);
   },
   methods: {
      getBookKind() {
@@ -169,7 +197,8 @@ export default {
       // })
       // row.status = status
     },
-    handleUpdate(row) {
+    handleSelectionChange(row) {
+      console.log(row);
       // this.temp = Object.assign({}, row) // copy obj
       // this.temp.timestamp = new Date(this.temp.timestamp)
       // this.dialogStatus = 'update'

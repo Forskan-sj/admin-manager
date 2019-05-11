@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
-    <div class="addSchoolType">
+    <!-- <div class="addSchoolType">
       <router-link :to="'/version/options/'+'0'">
         <el-button size="mini" type="success" icon="el-icon-edit" @click="handleModifyStatus">添加新版本</el-button>
       </router-link>
-    </div>
+    </div> -->
     <el-table
       v-loading="listLoading"
       :key="tableKey"
@@ -20,47 +20,36 @@
           <span>{{ scope.row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="'版本名称'" prop="id" sortable="custom" align="center">
+      <el-table-column :label="'用户名称'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.version_name }}</span>
+          <span>{{ scope.row.nickname }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="'版本号'" prop="id" sortable="custom" align="center">
+      <el-table-column :label="'头像'" prop="id" sortable="custom" align="center" width="100">
         <template slot-scope="scope">
-          <span>{{ scope.row.version_num }}</span>
+          <img :src="scope.row.avatar" class="imgpic" @click="handlePictureCardPreview(scope.row.avatar, true)">
         </template>
       </el-table-column>
-      <el-table-column :label="'更新内容'" prop="id" sortable="custom" align="center">
+      <el-table-column :label="'留言内容'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.update_content }}</span>
+          <span class="liuyan">{{ scope.row.contents }}</span>
+          <!-- <div v-if="scope.row.reply" class="reply">{{ '小唐僧回复：' + scope.row.reply }}</div> -->
         </template>
       </el-table-column>
-      <el-table-column :label="'类别'" prop="id" sortable="custom" align="center">
+      <el-table-column :label="'回复内容'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.type === 1? '安卓':'IOS' }}</span>
+          <span>{{ scope.row.reply }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="'bugly'" prop="id" sortable="custom" align="center" width="100">
-        <template slot-scope="scope">
-          <span>{{ scope.row.bugly === 1? '是':'否' }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="'是否强制更新'" prop="id" sortable="custom" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.is_update === 1? '是':'否' }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="'发布时间'" prop="id" sortable="custom" align="center">
+      <el-table-column :label="'留言时间'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.created_at }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="'操作'" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <router-link :to="'/version/options/'+scope.row.id">
-            <el-button type="primary" size="small" icon="el-icon-edit">编辑</el-button>
-          </router-link>
-          <el-button type="danger" size="small" icon="el-icon-delete" @click="del(scope.row.id)">删除</el-button>
+          <!-- <el-button type="primary" size="small" icon="el-icon-edit" @click="showDTL(scope.row)">查看</el-button> -->
+          <el-button type="primary" size="small" icon="el-icon-edit" @click="handlePictureCardPreview(scope.row, false)">查看</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -71,18 +60,34 @@
       :limit.sync="listQuery.limit"
       @pagination="getList"
     />
+    <el-dialog :visible.sync="dialogVisible">
+      <img v-if="imgMark" :src="dialogImageUrl" width="100%" >
+      <el-form v-if="!imgMark" ref="form" label-width="150px">
+        <el-form-item label="留言内容:" prop="title">
+          <el-input v-model="dialogImageUrl.contents" type="textarea"/>
+        </el-form-item>
+        <el-form-item label="回复:" prop="title">
+          <el-input v-model="dialogImageUrl.reply" type="textarea"/>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="showDTL(dialogImageUrl)">提交</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
-
 <script>
 import Pagination from '@/components/Pagination'
-import { getLists, del } from '@/api/college'
+import { getLists, add } from '@/api/college'
 export default {
   name: 'VersionList',
   components: { Pagination },
   data() {
     return {
-      path: 'Version',
+      path: 'guestBook',
+      dialogImageUrl: '',
+      imgMark: true,
+      dialogVisible: false,
       bookKinds: [],
       listQuery: {
         page: 1,
@@ -99,37 +104,30 @@ export default {
     this.getList()
   },
   mounted() {
-
   },
   methods: {
-    del(id) {
+    showDTL(obj) {
       this.listLoading = true
-      del(this.path, { id }).then(response => {
+      add(this.path, { id: obj.id, reply: obj.reply }).then(response => {
         this.listLoading = false
         this.getList()
-        // location.reload()
       })
     },
     addSchoolType() {},
     handleDownload() {},
     handleFilter() {},
     handleCreate() {},
-    handleModifyStatus(row, status) {
-      // this.$message({
-      //   message: '操作成功',
-      //   type: 'success'
-      // })
-      // row.status = status
+    handlePictureCardPreview(file, mark) {
+      this.dialogImageUrl = file
+      this.dialogVisible = true
+      if (mark) {
+        this.imgMark = true
+      } else {
+        this.imgMark = false
+      }
     },
     handleUpdate(row) {
-      // this.temp = Object.assign({}, row) // copy obj
-      // this.temp.timestamp = new Date(this.temp.timestamp)
-      // this.dialogStatus = 'update'
-      // this.dialogFormVisible = true
-      // this.$nextTick(() => {
-      //   this.$refs['dataForm'].clearValidate()
-      // })
-      // this.$router.push('/college/school_type/options')
+
     },
     sortChange() {},
     getList(index) {
@@ -159,8 +157,18 @@ export default {
   object-fit: cover;
   cursor: pointer;
 }
-.addSchoolType {
-  margin: 30px 0;
+img {
+  width: 100%;
+}
+.reply{
+  color: blue;
+  text-align: left;
+}
+.liuyan{
+  overflow: hidden;
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>
 

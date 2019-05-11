@@ -159,7 +159,8 @@
 
 <script>
 import DndList from '@/components/DndList'
-import { add, getInfo, getLists } from '@/api/college'
+// import { add, getInfo, getLists } from '@/api/college'
+import { add, getInfo } from '@/api/college'
 export default {
   name: 'ExamEdit',
   components: { DndList },

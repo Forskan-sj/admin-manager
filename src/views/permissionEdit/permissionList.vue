@@ -1,28 +1,7 @@
 <template>
   <div class="app-container">
-    <!-- <div class="addSchoolType">
-      <router-link :to="'/enterprise/options/'+'0'">
-        <el-button size="mini" type="success" icon="el-icon-edit" @click="handleModifyStatus">添加</el-button>
-      </router-link>
-    </div> -->
-    <el-input
-      v-model="listQuery.key"
-      placeholder="企业名称"
-      style="width: 200px;"
-      class="filter-item"
-      @keyup.enter.native="handleFilter"
-    />
-    <el-select
-      v-model="listQuery.status"
-      placeholder="审核状态"
-      clearable
-      style="width: 150px"
-      class="filter-item"
-      @change="handleFilter"
-    >
-      <el-option v-for="(item, index) in qy_status" :key="index" :label="item" :value="index"/>
-    </el-select>
-    <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
+    <el-button size="mini" type="success" icon="el-icon-edit" @click="handleModifyStatus">添加</el-button>
+
     <div style="height:30px"/>
     <el-table
       v-loading="listLoading"
@@ -80,8 +59,15 @@
       :limit.sync="listQuery.limit"
       @pagination="getList"
     />
-    <el-dialog :visible.sync="dialogVisible">
-      <img :src="dialogImageUrl" width="100%" >
+    <el-dialog :title="'新增管理员级别'" :visible.sync="dialogVisible">
+      <el-form ref="form" :model="form" label-width="150px">
+        <el-form-item label="级别名称:" prop="title">
+          <el-input v-model="form.title"/>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit">保存</el-button>
+        </el-form-item>
+      </el-form>
     </el-dialog>
   </div>
 </template>
@@ -124,7 +110,7 @@ export default {
 
   },
   mounted() {
-    this.getBookKind()
+    // this.getBookKind()
   },
   methods: {
      getBookKind() {
@@ -151,10 +137,7 @@ export default {
       this.$message('submit!')
     },
     onCancel() {
-      this.$message({
-        message: 'cancel!',
-        type: 'warning'
-      })
+
     },
     addSchoolType() {},
     handleDownload() {},
@@ -163,21 +146,10 @@ export default {
     },
     handleCreate() {},
     handleModifyStatus(row, status) {
-      // this.$message({
-      //   message: '操作成功',
-      //   type: 'success'
-      // })
-      // row.status = status
+      this.dialogVisible = true
     },
     handleUpdate(row) {
-      // this.temp = Object.assign({}, row) // copy obj
-      // this.temp.timestamp = new Date(this.temp.timestamp)
-      // this.dialogStatus = 'update'
-      // this.dialogFormVisible = true
-      // this.$nextTick(() => {
-      //   this.$refs['dataForm'].clearValidate()
-      // })
-      // this.$router.push('/college/school_type/options')
+
     },
     sortChange() {},
     getList(index) {
@@ -190,10 +162,6 @@ export default {
       getLists(this.path, this.listQuery).then(response => {
         this.total = response.data.total
         this.list = response.data.datas
-        // this.list.forEach((a, i, s) => {
-        //   const catobj = this.bookKinds.filter(obj => obj.id === a.catid)
-        //   a.cat_name = catobj.length === 0 ? '未分类' : catobj[0].name
-        // })
         this.listLoading = false
       })
     }
