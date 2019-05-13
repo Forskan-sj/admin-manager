@@ -42,12 +42,7 @@ service.interceptors.response.use(
         duration: 5 * 1000
       })
       setTimeout(() => {
-        logout().then(response => {
-          store.dispatch('FedLogOut').then(() => {
-            window.location.href = window.location.href.substring(0, window.location.href.indexOf('#') + 1) + '/login'
-            // location.reload()
-          })
-        })
+        window.location.href = window.location.href.substring(0, window.location.href.indexOf('#') + 1) + '/login'
       }, 2000)
     } else {
       Message({

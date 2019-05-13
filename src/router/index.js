@@ -79,8 +79,7 @@ export const asyncRouterMap = [
       id: 1001,
       meta: {
         title: '会员管理',
-        icon: 'user',
-        roles: ['admin', 'editor']
+        icon: 'user'
       }
     }]
   },
