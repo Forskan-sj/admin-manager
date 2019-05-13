@@ -44,12 +44,17 @@
           <span>{{ scope.row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="'用户名'" prop="id" sortable="custom" align="center">
+      <el-table-column :label="'昵称'" prop="nickname" sortable="custom" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.nickname }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="'用户名'" prop="username" sortable="custom" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="'权限级别'" prop="id" sortable="custom" align="center">
+      <el-table-column :label="'权限级别'" prop="groupname" sortable="custom" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.groupname }}</span>
         </template>
@@ -65,7 +70,7 @@
         </template>
       </el-table-column>
       <el-table-column :label="'操作'" align="center" class-name="small-padding fixed-width">
-        <template slot-scope="scope">
+        <template v-if="scope.row.id !== 1" slot-scope="scope">
           <el-button type="primary" size="small" icon="el-icon-edit" @click="handleModifyStatus(scope.row)">{{ '查看' }}</el-button>
           <!-- <el-button type="danger" size="small" icon="el-icon-delete" @click="del(scope.row.id)">删除</el-button> -->
         </template>
@@ -80,6 +85,9 @@
     />
     <el-dialog :visible.sync="dialogVisible">
       <el-form ref="form" :model="form" :rules="formRules" label-width="150px">
+        <el-form-item label="昵称:" prop="nickname">
+          <el-input v-model="form.nickname"/>
+        </el-form-item>
         <el-form-item label="账号:" prop="username">
           <el-input v-model="form.username"/>
         </el-form-item>
@@ -140,6 +148,7 @@ export default {
         group_id: ''
       },
       formRules: {
+        nickname: [{ required: true, message: '请输入管理员昵称', trigger: 'blur' }],
         username: [{ required: true, message: '请输入管理员账号', trigger: 'blur' }],
         password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
         group_id: [{ required: true, message: '请选择级别', trigger: 'blur' }]

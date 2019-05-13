@@ -17,6 +17,7 @@ const user = {
   state: {
     token: getToken(),
     name: '',
+    nickname: '',
     avatar: '',
     roles: [],
     gruop_id: 0
@@ -28,6 +29,9 @@ const user = {
     },
     SET_NAME: (state, name) => {
       state.name = name
+    },
+    SET_NICKNAME: (state, name) => {
+      state.nickname = name
     },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
@@ -48,7 +52,7 @@ const user = {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
         login(username, userInfo.password).then(response => {
-          console.log(response)
+          // console.log(response)
           // const data = {
           //   code: 20000,
           //   data: {
@@ -73,7 +77,7 @@ const user = {
 
      // 获取用户信息
      GetUserInfo({ commit, state }) {
-       console.log('object')
+      //  console.log('object')
       return new Promise((resolve, reject) => {
         getInfo('admin', { id: -2 }).then(response => {
           const data = response.data.datas
@@ -84,6 +88,7 @@ const user = {
             reject('该账号无任何权限，联系超管授予权限！')
           }
           commit('SET_NAME', data.groupname)
+          commit('SET_NICKNAME', data.nickname)
           commit('SET_AVATAR', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif')
           // commit('SET_INTRODUCTION', data.introduction)
           resolve(response)
