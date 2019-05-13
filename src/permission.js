@@ -20,12 +20,12 @@ router.beforeEach((to, from, next) => {
       NProgress.done() // if current page is dashboard will not trigger	afterEach hook, so manually handle it
     } else {
       if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
-        store.dispatch('GetInfo').then(res => { // 拉取user_info
+        store.dispatch('GetUserInfo').then(res => { // 拉取user_info
           let roles
           if (store.state.user.gruop_id === 1) {
             roles = ['admin']
           } else {
-            roles = store.state.user.role
+            roles = store.getters.roles
           }
           store.dispatch('GenerateRoutes', { roles }).then(() => { // 根据roles权限生成可访问的路由表
             router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
