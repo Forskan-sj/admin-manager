@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form ref="form" :model="form" :rules="formRules" label-width="260px">
-      <el-form-item label="活动奖品:" prop="title">
+      <!-- <el-form-item label="活动奖品:" prop="title">
         <el-input v-model="form.title"/>
       </el-form-item>
       <el-form-item label="活动主办单位:" prop="author">
@@ -12,6 +12,9 @@
       </el-form-item>
       <el-form-item label="活动说明:" prop="infos">
         <el-input v-model="form.infos"/>
+      </el-form-item> -->
+      <el-form-item label="活动说明:">
+        <tinymce :height="300" v-model="contents"/>
       </el-form-item>
     </el-form>
     <el-form ref="form3" label-width="260px" style="margin-top:30px">
@@ -23,14 +26,17 @@
 </template>
 <script>
 import { getInfoContent, editInfoContent } from '@/api/college'
+import Tinymce from '@/components/Tinymce'
 export default {
   name: 'ActiveInfo',
+  components: { Tinymce },
   data() {
     return {
       path: 'lottery',
       // formMark: true,
       listLoading: false,
       cdn: 'https://cdncollege.quansuwangluo.com/',
+      contents: '',
       form: {
         title: '',
         author: '',
@@ -52,22 +58,20 @@ export default {
     getInfos(id) {
       this.listLoading = true
       getInfoContent(this.path, { id }).then(response => {
-        this.form = response.data.datas.contents ? response.data.datas.contents : this.form
+        this.contents = response.data.datas.contents
         this.listLoading = false
       })
     },
     onSubmit() {
-      this.$refs['form'].validate(valid => {
-        if (valid) {
-          this.listLoading = true
-          editInfoContent(this.path, { contents: this.form }).then(response => {
-            this.$message(response.data.message)
-            this.listLoading = false
-          })
-        } else {
-          return false
-        }
-      })
+      if (this.contents.length) {
+        this.listLoading = true
+        editInfoContent(this.path, { contents: this.contents }).then(response => {
+          this.$message(response.data.message)
+          this.listLoading = false
+        })
+      } else {
+        return false
+      }
     },
     onCancel() {
       this.$message({
