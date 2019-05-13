@@ -66,6 +66,7 @@ export const asyncRouterMap = [
   {
     path: '/userlist',
     component: Layout,
+    id: 1,
     meta: {
       title: '会员管理',
       icon: 'user'
@@ -75,6 +76,7 @@ export const asyncRouterMap = [
       name: 'manager',
       component: () =>
         import('@/views/userlist/index'),
+      id: 1001,
       meta: {
         title: '会员管理',
         icon: 'user',
@@ -87,6 +89,7 @@ export const asyncRouterMap = [
     name: 'EnterPrise',
     redirect: '/enterprise/index',
     component: Layout,
+    id: 2,
     meta: {
       title: '专训营',
       icon: 'form'
@@ -96,6 +99,7 @@ export const asyncRouterMap = [
       name: 'EnterpriseList',
       component: () =>
         import('@/views/enterprise/list'),
+      id: 2001,
       meta: {
         title: '专训营',
         icon: 'form'
@@ -106,6 +110,7 @@ export const asyncRouterMap = [
       name: 'EnterpriseUserList',
       component: () =>
         import('@/views/enterprise/users'),
+      id: 2002,
       meta: {
         title: '学生列表',
         icon: 'form'
@@ -117,6 +122,7 @@ export const asyncRouterMap = [
       name: 'EnterpriseEdit',
       component: () =>
         import('@/views/enterprise/options'),
+      id: 2003,
       meta: {
         title: '专训营编辑',
         icon: 'form'
@@ -140,6 +146,7 @@ export const asyncRouterMap = [
     name: 'Medal',
     redirect: '/medal/index',
     component: Layout,
+    id: 3,
     meta: {
       title: '勋章',
       icon: 'form'
@@ -147,6 +154,7 @@ export const asyncRouterMap = [
     children: [{
       path: 'index',
       name: 'MedalList',
+      id: 3001,
       component: () =>
         import('@/views/medal/list'),
       meta: {
@@ -157,6 +165,7 @@ export const asyncRouterMap = [
     {
       path: 'options/:id(\\d+)',
       name: 'MedalEdit',
+      id: 3002,
       component: () =>
         import('@/views/medal/options'),
       meta: {
@@ -182,6 +191,7 @@ export const asyncRouterMap = [
     name: 'Bookpage',
     redirect: '/books/index',
     component: Layout,
+    id: 4,
     meta: {
       title: '抽奖管理',
       icon: 'form'
@@ -189,6 +199,7 @@ export const asyncRouterMap = [
     children: [{
       path: 'index',
       name: 'BookList',
+      id: 4001,
       component: () =>
         import('@/views/books/list'),
       meta: {
@@ -199,6 +210,7 @@ export const asyncRouterMap = [
     {
       path: 'activeInfo',
       name: 'ActiveInfo',
+      id: 4002,
       component: () =>
         import('@/views/books/activeInfo'),
       meta: {
@@ -209,6 +221,7 @@ export const asyncRouterMap = [
     {
       path: 'gifterList',
       name: 'GifterList',
+      id: 4003,
       component: () =>
         import('@/views/books/gifterList'),
       meta: {
@@ -219,6 +232,7 @@ export const asyncRouterMap = [
     {
       path: 'options/:id(\\d+)',
       name: 'BookEdits',
+      id: 4004,
       component: () =>
         import('@/views/books/options'),
       meta: {
@@ -233,6 +247,7 @@ export const asyncRouterMap = [
     path: '/admanager',
     name: 'ComplexTablepage',
     component: Layout,
+    id: 21,
     redirect: '/admanager/index',
     meta: {
       title: '轮播图',
@@ -241,6 +256,7 @@ export const asyncRouterMap = [
     children: [{
       path: 'index',
       name: 'ComplexTableEdit',
+      id: 2101,
       component: () =>
         import('@/views/admanager/options'),
       meta: {
@@ -253,6 +269,7 @@ export const asyncRouterMap = [
     path: '/invitePoster',
     name: 'ComplexInvitePoster',
     component: Layout,
+    id: 22,
     redirect: '/invitePoster/index',
     meta: {
       title: '邀请海报',
@@ -261,6 +278,7 @@ export const asyncRouterMap = [
     children: [{
       path: 'index',
       name: 'ComplexInvitePosterEdit',
+      id: 2201,
       component: () =>
         import('@/views/invitePoster/options'),
       meta: {
@@ -336,6 +354,7 @@ export const asyncRouterMap = [
     name: 'Version',
     redirect: '/version/index',
     component: Layout,
+    id: 23,
     meta: {
       title: '校长留言',
       icon: 'form'
@@ -343,6 +362,7 @@ export const asyncRouterMap = [
     children: [{
       path: 'index',
       name: 'VersionList',
+      id: 2301,
       component: () =>
         import('@/views/version/list'),
       meta: {
@@ -353,6 +373,7 @@ export const asyncRouterMap = [
     {
       path: 'options/:id(\\d+)',
       name: 'VersionEdit',
+      id: 2302,
       component: () =>
         import('@/views/version/options'),
       meta: {
@@ -363,88 +384,96 @@ export const asyncRouterMap = [
     }]
   },
 
-  {
-    path: '/notice',
-    name: 'NoticePage',
-    component: Layout,
-    redirect: '/notice/index',
-    meta: {
-      title: '消息管理',
-      icon: 'form'
-    },
-    children: [{
-      path: 'index',
-      name: 'NoticeList',
-      component: () =>
-        import('@/views/notice/list'),
-      meta: {
-        title: '消息管理',
-        icon: 'form'
-      }
-    },
-    {
-      path: 'options/:id(\\d+)',
-      name: 'NoticeEdit',
-      component: () =>
-        import('@/views/notice/options'),
-      meta: {
-        title: '编辑消息',
-        icon: 'form'
-      },
-      hidden: true
-    }]
-  }
   // {
-  //   path: '/permissionEdit',
-  //   name: 'PermissionEdit',
-  //   redirect: '/permissionEdit/index',
+  //   path: '/notice',
+  //   name: 'NoticePage',
   //   component: Layout,
+  //   id: 24,
+  //   redirect: '/notice/index',
   //   meta: {
-  //     title: '权限管理',
-  //     icon: 'user'
+  //     title: '消息管理',
+  //     icon: 'form'
   //   },
   //   children: [{
   //     path: 'index',
-  //     name: 'PermissionList',
+  //     name: 'NoticeList',
+  //     id: 2401,
   //     component: () =>
-  //       import('@/views/permissionEdit/list'),
+  //       import('@/views/notice/list'),
   //     meta: {
-  //       title: '管理员',
-  //       icon: 'user'
+  //       title: '消息管理',
+  //       icon: 'form'
   //     }
   //   },
   //   {
   //     path: 'options/:id(\\d+)',
-  //     name: 'PermissionEdits',
+  //     name: 'NoticeEdit',
+  //     id: 2402,
   //     component: () =>
-  //       import('@/views/permissionEdit/options'),
+  //       import('@/views/notice/options'),
   //     meta: {
-  //       title: '级别',
-  //       icon: 'user'
+  //       title: '编辑消息',
+  //       icon: 'form'
   //     },
   //     hidden: true
-  //   },
-  //   {
-  //     path: 'manageroptions',
-  //     name: 'PermissionManagers',
-  //     component: () =>
-  //       import('@/views/permissionEdit/manageroptions'),
-  //     meta: {
-  //       title: '级别权限',
-  //       icon: 'user'
-  //     }
-  //     // hidden: true
-  //   },
-  //   {
-  //     path: 'permissionList',
-  //     name: 'PermissionLists',
-  //     component: () =>
-  //       import('@/views/permissionEdit/permissionList'),
-  //     meta: {
-  //       title: '级别',
-  //       icon: 'user'
-  //     }
   //   }]
-  // }
+  // },
+  {
+    path: '/permissionEdit',
+    name: 'PermissionEdit',
+    redirect: '/permissionEdit/index',
+    component: Layout,
+    id: 25,
+    meta: {
+      title: '权限管理',
+      icon: 'user'
+    },
+    children: [{
+      path: 'index',
+      name: 'PermissionList',
+      id: 2501,
+      component: () =>
+        import('@/views/permissionEdit/list'),
+      meta: {
+        title: '管理员',
+        icon: 'user'
+      }
+    },
+    // {
+    //   path: 'options/:id(\\d+)',
+    //   name: 'PermissionEdits',
+    //   id: 2502,
+    //   component: () =>
+    //     import('@/views/permissionEdit/options'),
+    //   meta: {
+    //     title: '级别',
+    //     icon: 'user'
+    //   },
+    //   hidden: true
+    // },
+    {
+      path: 'manageroptions/:id(\\d+)',
+      name: 'PermissionManagers',
+      id: 2503,
+      component: () =>
+        import('@/views/permissionEdit/manageroptions'),
+      meta: {
+        title: '编辑权限',
+        icon: 'user'
+      },
+      hidden: true
+    },
+    {
+      path: 'permissionList',
+      name: 'PermissionLists',
+      id: 2504,
+      component: () =>
+        import('@/views/permissionEdit/permissionList'),
+      meta: {
+        title: '管理员级别',
+        icon: 'user'
+      }
+    }]
+  }
   // { path: '*', redirect: '/404', hidden: true }
 ]

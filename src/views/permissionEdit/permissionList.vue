@@ -18,35 +18,15 @@
           <span>{{ scope.row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="'企业名称'" prop="id" sortable="custom" align="center">
+      <el-table-column :label="'级别名称'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="'企业行业'" prop="id" sortable="custom" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.industry }}</span>
-        </template>
-      </el-table-column>
-      <!-- <el-table-column :label="'文章封面'" prop="id" sortable="custom" align="center">
-        <template slot-scope="scope">
-          <img :src="scope.row.pic" class="imgpic" @click="handlePictureCardPreview(scope.row.pic)">
-        </template>
-      </el-table-column> -->
-      <el-table-column :label="'审核状态'" prop="id" sortable="custom" align="center">
-        <template slot-scope="scope">
-          <span>{{ qy_status[scope.row.status] }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column :label="'提交审核时间'" prop="id" sortable="custom" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.created_at }}</span>
-        </template>
-      </el-table-column>
       <el-table-column :label="'操作'" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <router-link :to="'/enterprise/options/'+scope.row.id">
-            <el-button type="primary" size="small" icon="el-icon-edit">编辑</el-button>
+          <router-link v-if="scope.row.id !== 1" :to="'/permissionEdit/manageroptions/'+scope.row.id">
+            <el-button type="primary" size="small" icon="el-icon-edit">权限</el-button>
           </router-link>
           <!-- <el-button type="danger" size="small" icon="el-icon-delete" @click="del(scope.row.id)">删除</el-button> -->
         </template>
@@ -62,7 +42,7 @@
     <el-dialog :title="'新增管理员级别'" :visible.sync="dialogVisible">
       <el-form ref="form" :model="form" label-width="150px">
         <el-form-item label="级别名称:" prop="title">
-          <el-input v-model="form.title"/>
+          <el-input v-model.trim="perName"/>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">保存</el-button>
@@ -74,13 +54,14 @@
 
 <script>
 import Pagination from '@/components/Pagination'
-import { getLists, del } from '@/api/college'
+import { getLists, del, add } from '@/api/college'
 export default {
   name: 'PermissionLists',
   components: { Pagination },
   data() {
     return {
-      path: 'enterprise',
+      path: 'group',
+      perName: '',
       dialogImageUrl: '',
       dialogVisible: false,
       qy_status: ['待审核', '审核通过', '拒绝'],
@@ -107,34 +88,25 @@ export default {
     }
   },
   created() {
-
   },
   mounted() {
-    // this.getBookKind()
+    this.getList()
   },
   methods: {
-     getBookKind() {
-      this.listLoading = true
-      getLists('category', { page: 1, limit: 99999, type: 2 }).then(response => {
-        this.bookKinds = response.data.datas
-        this.listLoading = false
-        this.getList()
-      })
-    },
     del(id) {
       this.listLoading = true
       del(this.path, { id }).then(response => {
         this.listLoading = false
         this.getList()
-        // location.reload()
       })
     },
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file
-      this.dialogVisible = true
-    },
     onSubmit() {
-      this.$message('submit!')
+      if (!this.perName) return
+      this.listLoading = true
+      add(this.path, { id: 0, name: this.perName }).then(response => {
+        this.listLoading = false
+        this.getList()
+      })
     },
     onCancel() {
 
@@ -145,7 +117,7 @@ export default {
       this.getList()
     },
     handleCreate() {},
-    handleModifyStatus(row, status) {
+    handleModifyStatus() {
       this.dialogVisible = true
     },
     handleUpdate(row) {
@@ -162,6 +134,7 @@ export default {
       getLists(this.path, this.listQuery).then(response => {
         this.total = response.data.total
         this.list = response.data.datas
+        this.dialogVisible = false
         this.listLoading = false
       })
     }

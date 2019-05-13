@@ -26,7 +26,7 @@
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
     </div>
     <div class="addSchoolType">
-      <router-link :to="'/college/question_edit/options/'+'0'">
+      <router-link :to="'/college/question_edit/'+'0'">
         <el-button size="mini" type="success" icon="el-icon-edit" @click="handleModifyStatus">添加</el-button>
       </router-link>
     </div>
@@ -77,7 +77,7 @@
       </el-table-column>
       <el-table-column :label="'操作'" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <router-link :to="'/college/question_edit/options/'+scope.row.id">
+          <router-link :to="'/college/question_edit/'+scope.row.id">
             <el-button type="primary" size="small" icon="el-icon-edit">编辑</el-button>
           </router-link>
           <el-button type="danger" size="small" icon="el-icon-delete" @click="del(scope.row.id)">删除</el-button>

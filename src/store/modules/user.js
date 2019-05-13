@@ -15,7 +15,9 @@ const user = {
     token: getToken(),
     name: '',
     avatar: '',
-    roles: []
+    roles: [],
+    role: [],
+    gruop_id: 0
   },
 
   mutations: {
@@ -30,6 +32,12 @@ const user = {
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
+    },
+    SET_ROLE: (state, roles) => {
+      state.role = roles
+    },
+    SET_GID: (state, g_id) => {
+      state.gruop_id = g_id
     }
   },
 
@@ -51,6 +59,8 @@ const user = {
           if (response.data.status) {
             const data = response.data.datas
             setToken(data.token)
+            commit('SET_GID', data.group_id)
+            commit('SET_ROLE', data.rule)
             commit('SET_TOKEN', data.token)
             resolve(response)
           } else {
@@ -80,6 +90,7 @@ const user = {
           data.name = 'Super Admin'
           data.avatar = 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
           commit('SET_ROLES', ['admin'])
+          commit('SET_ROLE', state.role)
           commit('SET_NAME', data.name)
           commit('SET_AVATAR', data.avatar)
           resolve()

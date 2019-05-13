@@ -35,7 +35,7 @@
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
     </div>
     <div class="addSchoolType">
-      <router-link :to="'/college/course_edit/options/'+'0'">
+      <router-link :to="'/college/course/options/'+'0'">
         <el-button size="mini" type="success" icon="el-icon-edit" @click="handleModifyStatus">添加课程</el-button>
       </router-link>
     </div>
@@ -96,13 +96,13 @@
       </el-table-column>
       <el-table-column :label="'操作'" align="center" class-name="small-padding fixed-width" width="400">
         <template slot-scope="scope">
-          <router-link :to="'/college/praxis/praxis/'+scope.row.id">
+          <router-link :to="'/college/course/praxis/'+scope.row.id">
             <el-button type="primary" size="small" icon="el-icon-edit">批改</el-button>
           </router-link>
-          <router-link :to="'/college/discuss/discuss/'+scope.row.id">
+          <router-link :to="'/college/course/discuss/'+scope.row.id">
             <el-button type="danger" size="small">评论</el-button>
           </router-link>
-          <router-link :to="'/college/course_edit/options/'+scope.row.id">
+          <router-link :to="'/college/course/options/'+scope.row.id">
             <el-button type="primary" size="small" icon="el-icon-edit">编辑</el-button>
           </router-link>
           <el-button type="danger" size="small" icon="el-icon-delete" @click="del(scope.row.id)">删除</el-button>

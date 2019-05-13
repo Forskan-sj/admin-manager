@@ -382,7 +382,7 @@ export default {
         this.listLoading = false
         this.$message(response.data.message)
         this.$store.dispatch('delView', this.$route)
-        this.$router.replace('/college/course/index')
+        this.$router.replace('/college/course')
         sessionStorage.setItem('refresh', JSON.stringify(1))
       })
     },

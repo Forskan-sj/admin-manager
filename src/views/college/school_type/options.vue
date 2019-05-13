@@ -100,7 +100,7 @@ export default {
       add(this.path, this.form).then(response => {
         this.$message(response.data.message)
         this.$store.dispatch('delView', this.$route)
-        this.$router.replace('/college/school_type/index')
+        this.$router.replace('/college/school_type')
         sessionStorage.setItem('refresh', JSON.stringify(1))
         this.listLoading = false
       })

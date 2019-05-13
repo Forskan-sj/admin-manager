@@ -95,7 +95,8 @@ export default {
               // return
             // }
             setTimeout(() => {
-              this.$router.push({ path: this.redirect || '/' })
+              this.$router.push({ path: '/dashboard' })
+              // this.$router.push({ path: this.redirect || '/dashboard' })
             }, 1500)
           }).catch(() => {
             this.loading = false

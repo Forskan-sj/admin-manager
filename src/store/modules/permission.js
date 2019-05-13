@@ -13,6 +13,11 @@ function hasPermission(roles, route) {
   }
 }
 
+function hasPermissionSelf(roles, route) {
+  if (route.id) {
+    return roles.includes(route.id)
+  }
+}
 /**
  * 递归过滤异步路由表，返回符合用户角色权限的路由表
  * @param routes asyncRouterMap
@@ -20,10 +25,10 @@ function hasPermission(roles, route) {
  */
 function filterAsyncRouter(routes, roles) {
   const res = []
-  console.log('object')
   routes.forEach(route => {
     const tmp = { ...route }
-    if (hasPermission(roles, tmp)) {
+    if (hasPermissionSelf(roles, tmp)) {
+    // if (hasPermission(roles, tmp)) {
       // console.log(tmp)
       if (tmp.children) {
         tmp.children = filterAsyncRouter(tmp.children, roles)
@@ -101,7 +106,6 @@ const permission = {
     GenerateRoutes({ commit }, data) {
       return new Promise(resolve => {
         const { roles } = data
-
         let accessedRouters
         if (roles.includes('admin')) {
           accessedRouters = asyncRouterMap

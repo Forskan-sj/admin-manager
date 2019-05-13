@@ -3,8 +3,9 @@ import Layout from '@/views/layout/Layout'
 const college = {
   path: '/college',
     component: Layout,
-    redirect: '/college/school_type/index',
+    redirect: '/college/school_type',
     name: 'College',
+    id: 10,
     meta: {
       title: '基本管理',
       icon: 'example'
@@ -12,46 +13,25 @@ const college = {
     children: [{
       path: 'school_type',
       name: 'StypePage',
+      id: 1110,
       component: () =>
         import('@/views/college/school_type/list'),
-      redirect: '/college/school_type/index',
       meta: {
         title: '类型管理',
         icon: 'form'
-      },
-      children: [{
-        path: 'index',
-        name: 'StypeList',
-        component: () =>
-          import('@/views/college/school_type/list'),
-        meta: {
-          title: '类型管理',
-          icon: 'form'
-        }
-      }]
+      }
     },
     {
-      path: 'school_type_edit',
+      path: 'school_type/options/:id(\\d+)',
       name: 'StypeEdits',
+      id: 1120,
       component: () =>
         import('@/views/college/school_type/options'),
-      redirect: '/college/school_type/index',
       meta: {
-        title: '类型管理',
+        title: '编辑类型',
         icon: 'form'
       },
-      hidden: true,
-      children: [
-      {
-        path: 'options/:id(\\d+)',
-        name: 'StypeEdit',
-        component: () =>
-          import('@/views/college/school_type/options'),
-        meta: {
-          title: '编辑类型',
-          icon: 'form'
-        }
-      }]
+      hidden: true
     },
     // {
     //   path: 'school_index',
@@ -167,92 +147,49 @@ const college = {
     {
       path: 'course',
       name: 'CoursePage',
-      redirect: '/college/course/index',
+      id: 1130,
       component: () =>
         import('@/views/college/course/list'),
       meta: {
         title: '课程库',
         icon: 'form'
-      },
-      children: [{
-        path: 'index',
-        name: 'CourseList',
-        component: () =>
-          import('@/views/college/course/list'),
-        meta: {
-          title: '课程库',
-          icon: 'form'
-        }
-      }]
+      }
     },
     {
-      path: 'praxis',
+      path: 'course/praxis/:id(\\d+)',
       name: 'CoursePraxis',
+      id: 1140,
       component: () =>
         import('@/views/college/course/praxis'),
-      redirect: '/college/course/index',
       meta: {
-        title: '课程库',
+        title: '批改作业',
         icon: 'form'
       },
-      hidden: true,
-      children: [
-      {
-        path: 'praxis/:id(\\d+)',
-        name: 'CoursePraxiss',
-        component: () =>
-          import('@/views/college/course/praxis'),
-        meta: {
-          title: '批改作业',
-          icon: 'form'
-        }
-      }]
+      hidden: true
     },
     {
-      path: 'discuss',
+      path: 'course/discuss/:id(\\d+)',
       name: 'Coursediscuss',
+      id: 1150,
       component: () =>
         import('@/views/college/course/discuss'),
-      redirect: '/college/course/index',
       meta: {
-        title: '课程库',
+        title: '课程评论',
         icon: 'form'
       },
-      hidden: true,
-      children: [
-      {
-        path: 'discuss/:id(\\d+)',
-        name: 'Coursediscusss',
-        component: () =>
-          import('@/views/college/course/discuss'),
-        meta: {
-          title: '课程评论',
-          icon: 'form'
-        }
-      }]
+      hidden: true
     },
     {
-      path: 'course_edit',
+      path: 'course/options/:id(\\d+)',
       name: 'CoursePages',
+      id: 1160,
       component: () =>
         import('@/views/college/course/options'),
-      redirect: '/college/course/index',
       meta: {
-        title: '课程库',
+        title: '编辑课程',
         icon: 'form'
       },
-      hidden: true,
-      children: [
-      {
-        path: 'options/:id(\\d+)',
-        name: 'CourseEdit',
-        component: () =>
-          import('@/views/college/course/options'),
-        meta: {
-          title: '编辑课程',
-          icon: 'form'
-        }
-      }]
+      hidden: true
     },
     // {
     //   path: 'series_course',
@@ -324,134 +261,96 @@ const college = {
     {
       path: 'question',
       name: 'QuestionPage',
-      redirect: '/college/question/index',
+      id: 1170,
       component: () =>
         import('@/views/college/question/list'),
       meta: {
         title: '题库管理',
         icon: 'form'
-      },
-      children: [{
-        path: 'index',
-        name: 'QuestionList',
-        component: () =>
-          import('@/views/college/question/list'),
-        meta: {
-          title: '题库管理',
-          icon: 'form'
-        }
-      }]
+      }
     },
     {
-      path: 'question_edit',
+      path: 'question_edit/:id(\\d+)',
       name: 'QuestionEdits',
+      id: 1180,
       component: () =>
         import('@/views/college/question/options'),
-      redirect: '/college/question/index',
       meta: {
-        title: '题库管理',
+        title: '编辑题库',
         icon: 'form'
       },
-      hidden: true,
-      children: [
-      {
-        path: 'options/:id(\\d+)',
-        name: 'QuestionEdit',
-        component: () =>
-          import('@/views/college/question/options'),
-        meta: {
-          title: '编辑题库',
-          icon: 'form'
-        }
-      }]
+      hidden: true
     },
-    {
-      path: 'exam',
-      name: 'ExamPage',
-      redirect: '/college/exam/index',
-      component: () =>
-        import('@/views/college/exam/list'),
-      meta: {
-        title: '考试管理',
-        icon: 'form'
-      },
-      children: [{
-        path: 'index',
-        name: 'ExamList',
-        component: () =>
-          import('@/views/college/exam/list'),
-        meta: {
-          title: '考试管理',
-          icon: 'form'
-        }
-      }]
-    },
-    {
-      path: 'exam_edit',
-      name: 'ExamEdits',
-      component: () =>
-        import('@/views/college/exam/options'),
-      redirect: '/college/exam/index',
-      meta: {
-        title: '考试管理',
-        icon: 'form'
-      },
-      hidden: true,
-      children: [
-      {
-        path: 'options/:id(\\d+)',
-        name: 'ExamEdit',
-        component: () =>
-          import('@/views/college/exam/options'),
-        meta: {
-          title: '编辑考试',
-          icon: 'form'
-        }
-      }]
-    },
+    // {
+    //   path: 'exam',
+    //   name: 'ExamPage',
+    //   id: 1190,
+    //   redirect: '/college/exam/index',
+    //   component: () =>
+    //     import('@/views/college/exam/list'),
+    //   meta: {
+    //     title: '考试管理',
+    //     icon: 'form'
+    //   },
+    //   children: [{
+    //     path: 'index',
+    //     name: 'ExamList',
+    //     id: 1191,
+    //     component: () =>
+    //       import('@/views/college/exam/list'),
+    //     meta: {
+    //       title: '考试管理',
+    //       icon: 'form'
+    //     }
+    //   }]
+    // },
+    // {
+    //   path: 'exam_edit',
+    //   name: 'ExamEdits',
+    //   id: 1200,
+    //   component: () =>
+    //     import('@/views/college/exam/options'),
+    //   redirect: '/college/exam/index',
+    //   meta: {
+    //     title: '编辑考试',
+    //     icon: 'form'
+    //   },
+    //   hidden: true,
+    //   children: [
+    //   {
+    //     path: 'options/:id(\\d+)',
+    //     name: 'ExamEdit',
+    //     id: 1201,
+    //     component: () =>
+    //       import('@/views/college/exam/options'),
+    //     meta: {
+    //       title: '编辑考试',
+    //       icon: 'form'
+    //     }
+    //   }]
+    // },
     {
       path: 'teacher',
       name: 'TeacherPage',
-      redirect: '/college/teacher/index',
+      id: 1210,
       component: () =>
         import('@/views/college/teacher/list'),
       meta: {
         title: '讲师管理',
         icon: 'form'
-      },
-      children: [{
-        path: 'index',
-        name: 'TeacherList',
-        component: () =>
-          import('@/views/college/teacher/list'),
-        meta: {
-          title: '讲师管理',
-          icon: 'user'
-        }
-      }]
+      }
     },
     {
-      path: 'teacher_edit',
+      path: 'teacher_edit/:id(\\d+)',
       name: 'TeacherEdits',
+      id: 1220,
       component: () =>
         import('@/views/college/teacher/options'),
-      redirect: '/college/teacher/index',
       meta: {
-        title: '讲师管理',
+        title: '编辑讲师',
         icon: 'form'
       },
-      hidden: true,
-      children: [
-      {
-        path: 'options/:id(\\d+)',
-        name: 'TeacherEdit',
-        component: () =>
-          import('@/views/college/teacher/options'),
-        meta: {
-          title: '编辑讲师',
-          icon: 'form'
-        }
-      }]
+      hidden: true
     }]
 }
 export default college

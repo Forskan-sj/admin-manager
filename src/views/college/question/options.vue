@@ -167,7 +167,7 @@ export default {
         this.list = response.data.datas
         this.listLoading = false
         this.$store.dispatch('delView', this.$route)
-        this.$router.replace('/college/question/index')
+        this.$router.replace('/college/question')
         sessionStorage.setItem('refresh', JSON.stringify(1))
         this.$message(response.data.info)
       })
