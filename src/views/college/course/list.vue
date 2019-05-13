@@ -97,10 +97,14 @@
       <el-table-column :label="'操作'" align="center" class-name="small-padding fixed-width" width="400">
         <template slot-scope="scope">
           <router-link :to="'/college/course/praxis/'+scope.row.id">
-            <el-button type="primary" size="small" icon="el-icon-edit">批改</el-button>
+            <el-button class="button" type="primary" size="small" icon="el-icon-edit">批改 {{ scope.row.praxis_yes + '/' + scope.row.praxis_all }}
+              <div v-if="scope.row.praxis_no > 0" class="redDot"/>
+            </el-button>
           </router-link>
           <router-link :to="'/college/course/discuss/'+scope.row.id">
-            <el-button type="danger" size="small">评论</el-button>
+            <el-button class="button" type="success" size="small">评论 {{ scope.row.eva_yes + '/' + scope.row.eva_all }}
+              <div v-if="scope.row.eva_no > 0" class="redDot"/>
+            </el-button>
           </router-link>
           <router-link :to="'/college/course/options/'+scope.row.id">
             <el-button type="primary" size="small" icon="el-icon-edit">编辑</el-button>
@@ -255,6 +259,18 @@ img {
   position: absolute;
   right: 15px;
   top: 10px;
+}
+.button{
+  position: relative;
+}
+.redDot{
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  background: red;
 }
 </style>
 
