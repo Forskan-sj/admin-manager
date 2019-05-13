@@ -85,7 +85,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="奖品图标(80 x 80 *.png)" prop="pic">
-          <up-load v-if="ulParamsMark && formMark" :index="-1" :type="3" :single-pic="bEdit ? cdn + form.img : form.img" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
+          <up-load v-if="ulParamsMark && formMark" :key="form.id" :index="-1" :type="3" :single-pic="bEdit ? cdn + form.img : form.img" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
         </el-form-item>
 
         <el-form-item>
