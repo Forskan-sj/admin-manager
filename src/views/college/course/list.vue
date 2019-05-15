@@ -74,6 +74,21 @@
           <span>{{ scope.row.cat_name }}</span>
         </template>
       </el-table-column>
+      <el-table-column :label="'喜欢量'" prop="likes" sortable="custom" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.likes }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="'点击量'" prop="click" sortable="custom" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.click }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="'播放总时长'" prop="all_time" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.all_time }}</span>
+        </template>
+      </el-table-column>
       <!-- <el-table-column :label="'关联套课'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.catid }}</span>
