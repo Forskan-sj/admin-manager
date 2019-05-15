@@ -113,7 +113,11 @@
             />
           </el-select>
         </el-form-item>
-
+        <el-form-item
+          label="头像"
+          prop="avatar">
+          <up-load v-if="ulParamsMark" :key="form.id + 2" :single-pic="form.id !== 0 ? cdn + form.avatar : form.avatar" :index="-1" :type="3" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">保存</el-button>
         </el-form-item>
@@ -124,15 +128,18 @@
 
 <script>
 import Pagination from '@/components/Pagination'
-import { getLists, add, del } from '@/api/college'
+import UpLoad from '@/components/UpLoad'
+import { getLists, add, del, getOSSparams } from '@/api/college'
 export default {
   name: 'PermissionList',
-  components: { Pagination },
+  components: { Pagination, UpLoad },
   data() {
     return {
       path: 'admin',
       dialogImageUrl: '',
+      ulParamsMark: false,
       dialogVisible: false,
+      cdn: 'https://cdncollege.quansuwangluo.com/',
       listQuery: {
         key: '',
         status: '',
@@ -145,12 +152,14 @@ export default {
         id: 0,
         username: '',
         password: '',
+        avatar: null,
         group_id: ''
       },
       formRules: {
         nickname: [{ required: true, message: '请输入管理员昵称', trigger: 'blur' }],
         username: [{ required: true, message: '请输入管理员账号', trigger: 'blur' }],
         password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+        avatar: [{ required: true, message: '请上传头像', trigger: 'blur' }],
         group_id: [{ required: true, message: '请选择级别', trigger: 'blur' }]
       },
       total: 5,
@@ -164,8 +173,17 @@ export default {
   },
   mounted() {
     this.getList()
+    getOSSparams({ type: 'dev_test_dcaredata' }).then(response => {
+      this.ossParams = response.data.datas
+      this.ulParamsMark = true
+    })
   },
   methods: {
+    uploadSucess(param) {
+      if (param.res_url !== null) {
+        this.form.avatar = param.res_url
+      }
+    },
     del(id) {
       this.listLoading = true
       del(this.path, { id }).then(response => {
@@ -202,8 +220,14 @@ export default {
     handleCreate() {},
     handleModifyStatus(obj) {
       this.dialogVisible = true
-      if (obj === -1) return
-      else {
+      if (obj === -1) {
+        this.form = {
+          id: 0,
+          username: '',
+          password: '',
+          avatar: null,
+          group_id: '' }
+      } else {
         this.form = obj
       }
     },

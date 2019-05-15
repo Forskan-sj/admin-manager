@@ -110,6 +110,7 @@ export default {
       this.listLoading = true
       add(this.path, { id: obj.id, reply: obj.reply }).then(response => {
         this.listLoading = false
+        this.dialogVisible = false
         this.getList()
       })
     },

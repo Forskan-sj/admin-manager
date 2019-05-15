@@ -134,12 +134,13 @@
           <span>{{ scope.row.created_at }}</span>
         </template>
       </el-table-column>
-      <!-- <el-table-column :label="'操作'" class-name="status-col">
+      <el-table-column :label="'操作'" class-name="status-col">
         <template slot-scope="scope">
-          <el-button type="primary" size="small" icon="el-icon-edit">编辑</el-button>
-          <el-button type="danger" size="small" icon="el-icon-delete">冻结</el-button>
+          <router-link :to="'/userlist/userDetail/'+scope.row.id">
+            <el-button type="primary" size="small" icon="el-icon-edit">查看</el-button>
+          </router-link>
         </template>
-      </el-table-column> -->
+      </el-table-column>
     </el-table>
     <pagination
       v-show="total>0"

@@ -81,6 +81,18 @@ export const asyncRouterMap = [
         title: '会员管理',
         icon: 'user'
       }
+    },
+    {
+      path: 'userDetail/:id(\\d+)',
+      name: 'ManagerDetail',
+      component: () =>
+        import('@/views/userlist/detail'),
+      id: 1002,
+      hidden: true,
+      meta: {
+        title: '会员详细',
+        icon: 'user'
+      }
     }]
   },
   {
