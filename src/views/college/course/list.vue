@@ -104,9 +104,9 @@
           <div class="userList">{{ scope.row.question_id }}</div>
         </template>
       </el-table-column> -->
-      <el-table-column :label="'发布时间'" prop="updated_at" sortable="custom" align="center">
+      <el-table-column :label="'发布时间'" prop="start_time" sortable="custom" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.updated_at }}</span>
+          <span>{{ scope.row.start_time }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="'操作'" align="center" class-name="small-padding fixed-width" width="400">
