@@ -179,7 +179,7 @@ export default {
         cancelButtonText: '取消'
       }).then(({ value }) => {
         if (value) {
-          this.addEva({ eva_id: obj.eva_id, teacher: this.store.getters.nickname, reply: value })
+          this.addEva({ eva_id: obj.eva_id, teacher: this.$store.getters.nickname, reply: value })
         }
       }).catch(() => {
       })
