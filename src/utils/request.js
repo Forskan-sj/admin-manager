@@ -1,4 +1,5 @@
 import axios from 'axios'
+import route from '@/router'
 import { Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
@@ -42,7 +43,8 @@ service.interceptors.response.use(
         duration: 5 * 1000
       })
       setTimeout(() => {
-        window.location.href = window.location.href.substring(0, window.location.href.indexOf('#') + 1) + '/login'
+        route.push('/login')
+        location.reload()
       }, 2000)
     } else {
       Message({
