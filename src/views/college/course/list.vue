@@ -109,6 +109,19 @@
           <span>{{ scope.row.start_time }}</span>
         </template>
       </el-table-column>
+      <el-table-column :label="'推荐'" prop="start_time" sortable="custom" align="center">
+        <template slot-scope="scope">
+          <span>{{ tuijianstatus[scope.row.is_recommend] }}</span>
+        </template>
+      </el-table-column>
+      <!-- <el-table-column :label="'是否推荐'" prop="id" sortable="custom" align="center">
+        <template slot-scope="scope">
+          <el-switch
+            v-model="scope.row.is_recommend"
+            active-color="#13ce66"
+            @change="tabStatus(scope.row)"/>
+        </template>
+      </el-table-column> -->
       <el-table-column :label="'操作'" align="center" class-name="small-padding fixed-width" width="400">
         <template slot-scope="scope">
           <router-link :to="'/college/course/praxis/'+scope.row.id">
@@ -140,13 +153,14 @@
 
 <script>
 import Pagination from '@/components/Pagination'
-import { getLists, del } from '@/api/college'
+import { getLists, del, setStatus } from '@/api/college'
 export default {
   name: 'CourseList',
   components: { Pagination },
   data() {
     return {
       path: 'course',
+      tuijianstatus: ['----', '首页', '详情页'],
       courseStatus: [
         { label: '未发布', key: 0 },
         { label: '已发布', key: 1 }
@@ -178,6 +192,10 @@ export default {
   },
   mounted() {},
   methods: {
+    tabStatus(row) {
+      setStatus(this.path, { id: row.id, is_recommend: row.is_recommend ? 1 : 0 }).then(response => {
+      })
+    },
     del(id) {
       this.$confirm('此操作将永久删除该课程, 是否继续?', '提示', {
         confirmButtonText: '确定',

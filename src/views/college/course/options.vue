@@ -90,6 +90,13 @@
           <el-radio :label="0">否</el-radio>
         </el-radio-group>
       </el-form-item>
+      <el-form-item label="推荐/首页">
+        <el-radio-group v-model="form.is_recommend">
+          <el-radio :label="2">推荐（内容页）</el-radio>
+          <el-radio :label="1">推荐（首页）</el-radio>
+          <el-radio :label="0">不推荐</el-radio>
+        </el-radio-group>
+      </el-form-item>
       <el-form-item label="上架时间" prop="start_time">
         <el-date-picker
           v-model="form.start_time"
@@ -215,6 +222,7 @@ export default {
             imgs: [],
             media: '',
             time: '',
+            is_recommend: 0,
             qstTitle: '',
             question_id: -1
           }

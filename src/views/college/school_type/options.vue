@@ -32,11 +32,11 @@
       <el-form-item v-if="form.delivery" label="考核达标最低分数">
         <el-input v-model="form.min"/>
       </el-form-item> -->
-      <el-form-item
+      <!-- <el-form-item
         label="类型图片(推荐尺寸:1035 x 360)"
         prop="ppt">
         <up-load v-if="ulParamsMark && formMark" :single-pic="bEdit?cdn+form.pic:form.pic" :index="-1" :type="3" :ossparas="ossParams" @uploadSucess="uploadSucess"/>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
         <el-button v-if="!bEdit" type="primary" @click="onSubmit">添加</el-button>
         <el-button v-if="bEdit" type="primary" @click="onSubmit">保存</el-button>
