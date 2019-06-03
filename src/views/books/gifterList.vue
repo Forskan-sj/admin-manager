@@ -8,12 +8,12 @@
     <div class="filter-container" style="padding-bottom: 10px;">
       <el-input
         v-model="listQuery.key"
-        placeholder="姓名、联系方式、地址"
+        placeholder="姓名、联系方式、地址、奖品名称"
         style="width: 300px;"
         class="filter-item"
         @keyup.enter.native="handleFilter"
       />
-      <el-select
+      <!-- <el-select
         v-model="listQuery.g_id"
         placeholder="奖品名称"
         clearable
@@ -22,7 +22,7 @@
         @change="handleFilter"
       >
         <el-option v-for="item in giftList" :key="item.id" :label="item.title" :value="item.id"/>
-      </el-select>
+      </el-select> -->
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
     </div>
     <el-table
@@ -57,12 +57,14 @@
       </el-table-column>
       <el-table-column :label="'奖品名字'" prop="id" sortable="custom" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.cat_name }}</span>
+          <!-- <span>{{ scope.row.cat_name }}</span> -->
+          <span>{{ scope.row.title }}</span>
         </template>
       </el-table-column>
       <el-table-column :label="'奖品图标'" prop="id" sortable="custom" align="center" width="100">
         <template slot-scope="scope">
-          <img :src="cdn + scope.row.cat_img" class="imgpic" @click="handlePictureCardPreview(cdn + scope.row.cat_img)">
+          <img :src="cdn + scope.row.img" class="imgpic" @click="handlePictureCardPreview(cdn + scope.row.cat_img)">
+          <!-- <img :src="cdn + scope.row.cat_img" class="imgpic" @click="handlePictureCardPreview(cdn + scope.row.cat_img)"> -->
         </template>
       </el-table-column>
       <el-table-column :label="'中奖时间'" prop="id" sortable="custom" align="center">
