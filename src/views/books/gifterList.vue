@@ -112,7 +112,6 @@ export default {
       eldTitle: '',
       listQuery: {
         key: '',
-        g_id: '',
         page: 1,
         limit: 10
       },
@@ -218,13 +217,13 @@ export default {
       this.listLoading = true
       getGiftLists(this.path, this.listQuery).then(response => {
         this.total = response.data.total
-        this.list = response.data.datas.users
-        this.giftList = response.data.datas.gift
-        this.list.forEach((a, i, s) => {
-          const catobj = response.data.datas.gift.filter(obj => obj.id === a.g_id)
-          a.cat_name = catobj.length === 0 ? '未中奖' : catobj[0].title
-          a.cat_img = catobj.length === 0 ? '' : catobj[0].img
-        })
+        this.list = response.data.datas
+        // this.giftList = response.data.datas.gift
+        // this.list.forEach((a, i, s) => {
+        //   const catobj = response.data.datas.gift.filter(obj => obj.id === a.g_id)
+        //   a.cat_name = catobj.length === 0 ? '未中奖' : catobj[0].title
+        //   a.cat_img = catobj.length === 0 ? '' : catobj[0].img
+        // })
         this.listLoading = false
       })
     }
