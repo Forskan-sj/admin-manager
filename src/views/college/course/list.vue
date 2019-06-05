@@ -59,11 +59,19 @@
           <span>{{ scope.row.title }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="'课程序列号'" prop="list_order" sortable="custom" align="center">
+      <!-- <el-table-column :label="'课程序列号'" prop="list_order" sortable="custom" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.list_order }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
+			<el-table-column :label="'是否上架'" prop="status" sortable="custom" align="center">
+			  <template slot-scope="scope">
+			    <!-- <el-switch
+			      v-model="scope.row.is_true"
+			      active-color="#13ce66"/> -->
+			    {{ scope.row.status ? '已上架' : '待拯救' }}
+			  </template>
+			</el-table-column>
       <el-table-column :label="'课程标识'" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.tab }}</span>
@@ -104,11 +112,11 @@
           <div class="userList">{{ scope.row.question_id }}</div>
         </template>
       </el-table-column> -->
-      <el-table-column :label="'发布时间'" prop="start_time" sortable="custom" align="center">
+      <!-- <el-table-column :label="'发布时间'" prop="start_time" sortable="custom" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.start_time }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column :label="'推荐'" prop="start_time" sortable="custom" align="center">
         <template slot-scope="scope">
           <span>{{ tuijianstatus[scope.row.is_recommend] }}</span>
